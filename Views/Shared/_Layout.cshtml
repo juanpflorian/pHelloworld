@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    @RenderSection("Styles", required: false)
+    <style>
+        main.layout-main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        footer.layout-footer {
+            background-color: #3366e9;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body class="layout-body exclusive-layout">
+
+    <!-- Header -->
+    <header class="layout-header exclusive-header bg-primary text-white p-3">
+        <div class="container exclusive-container d-flex justify-content-between align-items-center">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/img/Logo.png" alt="Logo" class="layout-logo exclusive-logo" style="height: 50px;">
+            </a>
+            <nav class="layout-nav exclusive-nav nav">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a asp-controller="Guias" asp-action="guias" class="btn btn-light text-primary exclusive-btn">MI GUIA</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-controller="Planes" asp-action="planes" class="btn btn-light text-primary exclusive-btn">PLANES TURISTICOS</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="btn btn-light text-primary dropdown-toggle exclusive-dropdown-toggle" data-bs-toggle="dropdown">QUIÉNES SOMOS?</a>
+                        <ul class="dropdown-menu exclusive-dropdown-menu">
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/nuestra mision/nuestramision.html")">Nuestra Misión</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/nuestra vision/nuestravision.html")">Nuestra Visión</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/nuestra historia/nuestrahistoria.html")">Nuestra Historia</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/pqrs/pqrs.html")">Contáctanos</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="bt_login_register exclusive-login-register d-flex gap-2">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="list-unstyled">
+                        <a asp-controller="Perfil" asp-action="Perfil" class="btn btn-outline-light exclusive-btn-account">Mi Perfil</a>
+                    </li>
+                    <li class="list-unstyled">
+                        <form asp-controller="Auth" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-outline-light exclusive-btn-account">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="list-unstyled">
+                        <a asp-controller="Login" asp-action="IniciarSesion" class="btn btn-outline-light exclusive-btn-account">Iniciar Sesión</a>
+                    </li>
+                    <li class="list-unstyled">
+                        <a asp-controller="Registro" asp-action="Registrarse" class="btn btn-outline-light exclusive-btn-account">Registrarse</a>
+                    </li>
+                }
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="layout-main exclusive-main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="layout-footer exclusive-footer text-center">
+        <div class="container-fluid exclusive-footer-container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Contáctanos</h5>
+                    <p>Email: <a href="#">helloworld@contacto.com</a></p>
+                    <p>Teléfono: <a href="tel:+573103087222">+57 310 308 7222</a></p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h5>Enlaces Útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="@Url.Content("~/footer/politicadeprivacidad.html")" class="text-white exclusive-footer-link">Política de Privacidad</a></li>
+                        <li><a href="@Url.Content("~/footer/terminosycondiciones.html")" class="text-white exclusive-footer-link">Términos y Condiciones</a></li>
+                        <li><a href="@Url.Content("~/footer/mapadesitio.html")" class="text-white exclusive-footer-link">Mapa de Sitio</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h5>Síguenos</h5>
+                    <div class="social-icons exclusive-social-icons">
+                        <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p>&copy; 2024 HELLOWORLD. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS (necesario para el dropdown) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

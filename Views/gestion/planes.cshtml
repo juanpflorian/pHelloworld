@@ -1,0 +1,92 @@
+﻿@{
+    var idUsuario = ViewBag.IdUsuario?.ToString();
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes Turísticos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+
+    <header class="header-secondary">
+        <h1 class="text-center">PLANES TURÍSTICOS</h1>
+    </header>
+
+    <div class="container my-5">
+        <div id="alertMessage" class="alert alert-success d-none" role="alert"></div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Guía</th>
+                    <th>Plan</th>
+                    <th>Descripción</th>
+                    <th>Duración</th>
+                    <th>Número de Personas</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var plan in Model)
+                {
+                    <tr>
+                        <td>@plan.Guia.Nombre</td>
+                        <td>@plan.NombrePlan</td>
+                        <td>@plan.Descripcion</td>
+                        <td>@plan.Duracion días</td>
+                        <td>@plan.NumeroPersonas</td>
+                        <td>@((plan.Precio ?? 0).ToString("C", new System.Globalization.CultureInfo("es-CO")))</td>
+                        <td>
+                            @if (plan.IdGuia.ToString() != idUsuario)
+                            {
+                                <button class="btn btn-primary reservar-btn"
+                                        data-idplan="@plan.IdPlan"
+                                        data-idguia="@plan.IdGuia">
+                                    Reservar
+                                </button>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Es mi plan :)</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Reserva -->
+    <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservaModalLabel">Selecciona una Fecha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reservaForm">
+                        <input type="hidden" id="idPlan" name="idPlan">
+                        <input type="hidden" id="idGuia" name="idGuia">
+                        <div class="mb-3">
+                            <label for="fechaProgramada" class="form-label">Fecha:</label>
+                            <input type="date" id="fechaProgramada" name="fechaProgramada" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Confirmar Reserva</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/reserva.js"></script>
+
+</body>
+</html>

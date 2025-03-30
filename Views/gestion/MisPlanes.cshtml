@@ -1,0 +1,225 @@
+﻿@model IEnumerable<pHelloworld.Models.Plan>
+
+@{
+    ViewBag.Title = "Mis Planes";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Mis Planes</h2>
+
+    <div class="text-end mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearPlan">
+            Crear Plan
+        </button>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Aún no has publicado ningún plan.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Nombre del Plan</th>
+                    <th>Descripción</th>
+                    <th>Duración</th>
+                    <th>Número de Personas</th>
+                    <th>Precio</th>
+                    <th>Fecha de Creación</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var plan in Model)
+                {
+                    <tr>
+                        <td>@plan.NombrePlan</td>
+                        <td>@plan.Descripcion</td>
+                        <td>@plan.Duracion</td>
+                        <td>@plan.NumeroPersonas</td>
+                        <td>@plan.Precio?.ToString("C", new System.Globalization.CultureInfo("es-CO"))</td>
+                        <td>@plan.FechaCreacion.ToShortDateString()</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modalReservas"
+                                    data-plan-id="@plan.IdPlan" data-plan-nombre="@plan.NombrePlan">
+                                Ver reservaciones
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <!-- Modal de Reservaciones -->
+    <div class="modal fade" id="modalReservas" tabindex="-1" aria-labelledby="modalReservasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalReservasLabel">Reservaciones</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="contenedorReservas">
+                        <p class="text-muted">Cargando reservaciones...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear Plan -->
+    <div class="modal fade" id="modalCrearPlan" tabindex="-1" aria-labelledby="modalCrearPlanLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formCrearPlan">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalCrearPlanLabel">Crear Nuevo Plan</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="NombrePlan" class="form-label">Nombre del Plan</label>
+                            <input type="text" class="form-control" id="NombrePlan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="Descripcion" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Duracion" class="form-label">Duración</label>
+                            <input type="text" class="form-control" id="Duracion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="NumeroPersonas" class="form-label">Número de Personas</label>
+                            <input type="text" class="form-control" id="NumeroPersonas" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Precio" class="form-label">Precio</label>
+                            <input type="number" step="0.01" class="form-control" id="Precio" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modal = document.getElementById('modalReservas');
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const planId = button.getAttribute('data-plan-id');
+            const nombre = button.getAttribute('data-plan-nombre');
+
+            document.getElementById('modalReservasLabel').textContent = `Reservaciones del plan: ${nombre}`;
+
+            fetch(`/MisPlanes/ReservasPorPlan/${planId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const contenedor = document.getElementById('contenedorReservas');
+                    if (data.length === 0) {
+                        contenedor.innerHTML = '<p class="text-center text-muted">No hay reservaciones para este plan.</p>';
+                    } else {
+                        let html = `
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre del Turista</th>
+                                                <th>Correo</th>
+                                                <th>Fecha Programada</th>
+                                                <th>Estado</th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                `;
+                        data.forEach(reserva => {
+                            let botones = reserva.estado === "Pendiente"
+                                ? `
+                                            <button class="btn btn-success btn-sm me-1" onclick="cambiarEstadoReserva(${reserva.id}, 'Confirmada')">Aceptar</button>
+                                            <button class="btn btn-danger btn-sm" onclick="cambiarEstadoReserva(${reserva.id}, 'Cancelada')">Cancelar</button>
+                                          `
+                                : `<span class="text-muted">Sin acciones :)</span>`;
+
+                            html += `
+                                        <tr>
+                                            <td>${reserva.nombre}</td>
+                                            <td>${reserva.correo}</td>
+                                            <td>${reserva.fecha}</td>
+                                            <td>${reserva.estado}</td>
+                                            <td>${botones}</td>
+                                        </tr>
+                                    `;
+                        });
+
+                        html += `</tbody></table>`;
+                        contenedor.innerHTML = html;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al cargar las reservaciones:", error);
+                    document.getElementById('contenedorReservas').innerHTML =
+                        '<p class="text-danger">Ocurrió un error al cargar las reservaciones.</p>';
+                });
+        });
+
+        function cambiarEstadoReserva(idReserva, nuevoEstado) {
+            fetch('/MisPlanes/CambiarEstadoReserva', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: idReserva, estado: nuevoEstado })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const modalEl = bootstrap.Modal.getInstance(document.getElementById('modalReservas'));
+                        modalEl.hide();
+                        setTimeout(() => {
+                            document.querySelector(`[data-plan-id]`).click();
+                        }, 300);
+                    } else {
+                        alert("Error al actualizar el estado.");
+                    }
+                });
+        }
+
+        document.getElementById('formCrearPlan').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const plan = {
+                nombrePlan: document.getElementById('NombrePlan').value,
+                descripcion: document.getElementById('Descripcion').value,
+                duracion: document.getElementById('Duracion').value,
+                numeroPersonas: document.getElementById('NumeroPersonas').value,
+                precio: parseFloat(document.getElementById('Precio').value)
+            };
+
+            fetch('/MisPlanes/CrearPlan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(plan)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        bootstrap.Modal.getInstance(document.getElementById('modalCrearPlan')).hide();
+                        location.reload();
+                    } else {
+                        alert("Error al crear el plan.");
+                    }
+                });
+        });
+    </script>
+}

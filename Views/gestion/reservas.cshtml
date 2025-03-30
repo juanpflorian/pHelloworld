@@ -1,0 +1,83 @@
+﻿@model List<pHelloworld.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Mis Reservas";
+}
+
+<header class="header-secondary">
+    <h1 class="text-center">MIS RESERVAS</h1>
+</header>
+
+<div class="container my-5">
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success">@TempData["Mensaje"]</div>
+    }
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Guía</th>
+                <th>Plan</th>
+                <th>Descripción</th>
+                <th>Duración</th>
+                <th>Fecha Programada</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reserva in Model)
+            {
+                <tr>
+                    <td>@reserva.Guia?.Nombre</td>
+                    <td>@reserva.Plan?.NombrePlan</td>
+                    <td>@reserva.Descripcion</td>
+                    <td>@reserva.Duracion</td>
+                    <td>@reserva.FechaProgramada.ToShortDateString()</td>
+                    <td>@reserva.Precio.ToString("C")</td>
+                    <td>
+                        <span class="badge bg-@(reserva.Estado == "Cancelada" ? "danger" : "success")">
+                            @reserva.Estado
+                        </span>
+                    </td>
+                    <td>
+                        @if (reserva.Estado == "Pendiente")
+                        {
+                            <button class="btn btn-danger" onclick="cancelarReserva(@reserva.IdReserva)">Cancelar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function cancelarReserva(idReserva) {
+        if (!confirm("¿Estás seguro de que deseas cancelar esta reserva?")) {
+            return;
+        }
+
+        fetch(`/Reservas/Cancelar`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify(idReserva) 
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Reserva cancelada con éxito.");
+                    location.reload();
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => console.error("Error al cancelar la reserva:", error));
+    }
+</script>
+

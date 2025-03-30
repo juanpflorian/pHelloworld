@@ -1,0 +1,109 @@
+﻿@model pHelloworld.Models.Perfil
+
+@{
+    ViewData["Title"] = "Modificar Perfil";
+    bool esGuia = Model.TipoUsuario == "Guía";
+}
+
+<h2 class="text-center">Modificar Perfil</h2>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="EditarPerfil" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="id_usuario" />
+
+                <div class="mb-3 text-center">
+                    <img id="previewImage" src="@Model.foto_perfil" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;" />
+                    <input type="file" class="form-control mt-2" name="fotoPerfil" id="foto_perfil" accept="image/*" onchange="previewFile()">
+                </div>
+
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" asp-for="usuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" asp-for="Nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" asp-for="Correo" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" asp-for="Telefono" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Lugar</label>
+                    <input type="text" class="form-control" asp-for="Direccion" required>
+                </div>
+
+                
+
+                @if (esGuia)
+                {
+                    <div class="mb-3">
+                        <label for="idiomas" class="form-label">Idiomas</label>
+                        <input type="text" class="form-control" asp-for="Idiomas" required>
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label for="Sobre Mi" class="form-label">Especialidad</label>
+                    <input type="text" class="form-control" asp-for="Especialidad">
+                </div>
+
+                @if (esGuia)
+                {
+                    <div class="mb-3">
+                        <label for="experiencia" class="form-label">Sobre Mi</label>
+                        <textarea class="form-control" asp-for="Experiencia" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="disponibilidad" class="form-label">Disponibilidad</label>
+                        <textarea class="form-control" asp-for="Disponibilidad" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tarifaHora" class="form-label">Tarifa por Hora</label>
+                        <input type="number" class="form-control" asp-for="TarifaHora" step="0.01">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tarifaTour" class="form-label">Tarifa por Tour</label>
+                        <input type="number" class="form-control" asp-for="TarifaTour" step="0.01">
+                    </div>
+                }
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a asp-action="Perfil" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewFile() {
+        var preview = document.getElementById('previewImage');
+        var file = document.getElementById('foto_perfil').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "@Model.foto_perfil";
+        }
+    }
+</script>

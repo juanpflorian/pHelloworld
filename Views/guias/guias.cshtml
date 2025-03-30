@@ -1,0 +1,116 @@
+﻿@model List<Usuario>
+
+@{
+    ViewData["Title"] = "Guías Disponibles";
+    var especialidades = Model.Select(g => g.Especialidad).Distinct().ToList();
+    var ubicaciones = Model.Select(g => g.Direccion).Distinct().ToList();
+    var idiomas = Model.SelectMany(g => g.Idiomas.Split(',')).Select(i => i.Trim()).Distinct().ToList();
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/guias/guias.css">
+</head>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Guías Disponibles</h1>
+
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <select id="specialtyFilter" class="form-select" onchange="filterGuides()">
+                <option value="">Filtrar por Especialidad</option>
+                @foreach (var especialidad in especialidades)
+                {
+                    <option value="@especialidad">@especialidad</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select id="locationFilter" class="form-select" onchange="filterGuides()">
+                <option value="">Filtrar por Ubicación</option>
+                @foreach (var ubicacion in ubicaciones)
+                {
+                    <option value="@ubicacion">@ubicacion</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select id="languageFilter" class="form-select" onchange="filterGuides()">
+                <option value="">Filtrar por Idioma</option>
+                @foreach (var idioma in idiomas)
+                {
+                    <option value="@idioma">@idioma</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <!-- Lista de guías -->
+    <div class="row d-flex flex-wrap justify-content-center" id="guidesContainer">
+        @foreach (var guia in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card guide-card" data-specialty="@guia.Especialidad" data-location="@guia.Direccion" data-language="@guia.Idiomas" >
+                    <div class="text-center">
+                        <img src="@guia.foto_perfil" class="profile-pic" alt="Foto de @guia.Nombre">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@guia.Nombre</h5>
+                        <p class="text-muted text-center">@guia.Nacionalidad</p>
+
+                        <p><strong>Usuario:</strong> @guia.usuario</p>
+                        <p><strong>Teléfono:</strong> @guia.Telefono</p>
+                        <p><strong>Lugar:</strong> @guia.Direccion</p>
+                        <p><strong>Idiomas:</strong> @guia.Idiomas</p>
+                        <p><strong>Especialidad:</strong> @guia.Especialidad</p>
+
+                        <p class="guide-description"><strong>Sobre mí:</strong> @guia.Experiencia</p>
+
+                        <p class="guide-availability"><strong>Disponibilidad:</strong> @guia.Disponibilidad</p>
+
+                        <p>
+                            <strong>Tarifas:</strong>
+                            <br>Hora: $@guia.TarifaHora USD
+                            <br>Tour: $@guia.TarifaTour USD
+                        </p>
+
+                        <div class="text-center">
+                            <a href="#" class="btn btn-primary">Contactar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function filterGuides() {
+        var specialty = document.getElementById("specialtyFilter").value.trim().toLowerCase();
+        var location = document.getElementById("locationFilter").value.trim().toLowerCase();
+        var language = document.getElementById("languageFilter").value.trim().toLowerCase();
+
+        var guides = document.querySelectorAll(".guide-card");
+
+        guides.forEach(function (card) {
+            var guideSpecialty = card.getAttribute("data-specialty")?.trim().toLowerCase() || "";
+            var guideLocation = card.getAttribute("data-location")?.trim().toLowerCase() || "";
+            var guideLanguages = card.getAttribute("data-language")?.trim().toLowerCase().split(/\s*,\s*/) || [];
+
+            var specialtyMatch = specialty === "" || guideSpecialty.includes(specialty);
+            var locationMatch = location === "" || guideLocation.includes(location);
+            var languageMatch = language === "" || guideLanguages.includes(language);
+
+            if (specialtyMatch && locationMatch && languageMatch) {
+                card.style.display = "block"; 
+            } else {
+                card.style.display = "none"; 
+            }
+        });
+    }
+
+
+</script>

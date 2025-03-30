@@ -1,0 +1,70 @@
+﻿@model pHelloworld.Models.Perfil
+@{
+    ViewBag.Title = "Mi Perfil";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mi Perfil</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/perfil/perfil.css">
+</head>
+
+<body>
+    <header class="exclusive-header text-center py-4">
+        <h1>MI PERFIL</h1>
+    </header>
+
+    <div class="exclusive-container container mt-4">
+        <h1 class="text-center">Bienvenido, @Model.Nombre</h1>
+        @{
+            var fotoperfil = User.FindFirst("foto_perfil")?.Value ?? "~/img/fotoperfil.png";
+        }
+        <div class="text-center mb-4">
+            <img id="exclusive-perfilImage" src="@($"{Model.foto_perfil}?t={DateTime.Now.Ticks}")" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+        </div>
+
+        <h2 class="text-center">Detalles de mi perfil</h2>
+        <div class="text-center mb-3">
+            <a href="@Url.Action("ModificarPerfil", "Perfil")" class="btn btn-outline-primary me-2 exclusive-btn">MODIFICAR PERFIL</a>
+            <a href="@Url.Action("MisReservas", "Reservas")" class="btn btn-outline-primary exclusive-btn">MIS RESERVAS</a>
+            @if (Model.TipoUsuario == "Guía")
+            {
+                <a href="@Url.Action("MisPlanes", "MisPlanes")" class="btn btn-outline-primary exclusive-btn">MIS PLANES</a>
+            }
+        </div>
+
+        <table class="table table-bordered table-hover table-striped text-center mt-4 exclusive-table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Campo</th>
+                    <th scope="col">Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Usuario:</strong></td><td>@Model.usuario</td></tr>
+                <tr><td><strong>Nombre:</strong></td><td>@Model.Nombre</td></tr>
+                <tr><td><strong>Correo:</strong></td><td>@Model.Correo</td></tr>
+                <tr><td><strong>Teléfono:</strong></td><td>@Model.Telefono</td></tr>
+                <tr><td><strong>Lugar:</strong></td><td>@Model.Direccion</td></tr>
+                <tr><td><strong>Tipo de usuario:</strong></td><td>@Model.TipoUsuario</td></tr>
+                <tr><td><strong>Especialidad:</strong></td><td>@Model.Especialidad</td></tr>
+
+                @if (Model.TipoUsuario == "Guía")
+                {
+                    <tr><td><strong>Idiomas:</strong></td><td>@Model.Idiomas</td></tr>
+                    <tr><td><strong>Sobre Mi:</strong></td><td>@Model.Experiencia</td></tr>
+                    <tr><td><strong>Disponibilidad:</strong></td><td>@Model.Disponibilidad</td></tr>
+                    <tr><td><strong>Tarifa por hora:</strong></td><td>@Model.TarifaHora</td></tr>
+                    <tr><td><strong>Tarifa por tour:</strong></td><td>@Model.TarifaTour</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

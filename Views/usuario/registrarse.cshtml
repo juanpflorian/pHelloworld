@@ -1,0 +1,56 @@
+﻿@model pHelloworld.Models.RegistroViewModel
+
+@{
+    ViewBag.Title = "Registrarse";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/usuario/registrarse.css" asp-append-version="true">
+}
+
+<div class="container">
+    <div class="form-container">
+        <h2>Registrarse en HELLOWORLD</h2>
+
+        @using (Html.BeginForm("registrarse", "registro", FormMethod.Post))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.usuario)
+                @Html.TextBoxFor(m => m.usuario, new { @class = "form-control", placeholder = "Ingrese su usuario" })
+                @Html.ValidationMessageFor(m => m.usuario, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Correo)
+                @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "Ingresa tu correo electrónico" })
+                @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contrasena)
+                @Html.PasswordFor(m => m.Contrasena, new { @class = "form-control", placeholder = "Ingresa tu contraseña" })
+                @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmarContrasena)
+                @Html.PasswordFor(m => m.ConfirmarContrasena, new { @class = "form-control", placeholder = "Confirma tu contraseña" })
+                @Html.ValidationMessageFor(m => m.ConfirmarContrasena, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+
+            <p>
+                ¿Ya tienes cuenta? <a href="@Url.Action("IniciarSesion", "Login")">Inicia sesión</a>
+            </p>
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}

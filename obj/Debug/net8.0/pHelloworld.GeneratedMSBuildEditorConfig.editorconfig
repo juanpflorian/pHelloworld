@@ -1,0 +1,87 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = pHelloworld
+build_property.RootNamespace = pHelloworld
+build_property.ProjectDir = C:\Users\Juan\source\repos\pHelloworld\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Juan\source\repos\pHelloworld
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzRGVuaWVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/gestion/MisPlanes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZ2VzdGlvblxNaXNQbGFuZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/gestion/planes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZ2VzdGlvblxwbGFuZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/gestion/reservas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZ2VzdGlvblxyZXNlcnZhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/guias/guias.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcZ3VpYXNcZ3VpYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/perfil/modificar-perfil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccGVyZmlsXG1vZGlmaWNhci1wZXJmaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/perfil/perfil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccGVyZmlsXHBlcmZpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/Shared/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFjY2Vzc0RlbmllZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/usuario/iniciarSesion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcdXN1YXJpb1xpbmljaWFyU2VzaW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/usuario/registrarse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcdXN1YXJpb1xyZWdpc3RyYXJzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-krw6m6qf30

@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\phelloworld.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:phelloworld.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Dockerfile",
+              "RelativeDocumentMoniker": "Dockerfile",
+              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Dockerfile",
+              "RelativeToolTip": "Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-29T23:47:56.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "pHelloworld",
+              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\pHelloworld.csproj",
+              "RelativeDocumentMoniker": "pHelloworld.csproj",
+              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\pHelloworld.csproj",
+              "RelativeToolTip": "pHelloworld.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-29T23:39:28.471Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

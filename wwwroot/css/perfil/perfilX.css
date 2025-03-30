@@ -1,0 +1,52 @@
+﻿/* Estilos generales */
+body {
+    background-color: #f8f9fa; /* Color de fondo suave */
+    font-family: 'Arial', sans-serif; /* Fuente general */
+}
+
+/* Encabezado */
+.exclusive-header {
+    background-color: #007bff; /* Color de fondo del encabezado */
+    color: white; /* Color del texto */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 0 0 10px 10px; /* Bordes redondeados en la parte inferior */
+}
+
+/* Contenedor principal */
+.exclusive-container {
+    background-color: white; /* Fondo blanco para el contenido */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px; /* Espaciado interno */
+}
+
+/* Imagen de perfil */
+#exclusive-perfilImage {
+    border: 2px solid #007bff; /* Borde azul alrededor de la imagen */
+    border-radius: 50%; /* Hacer la imagen redonda */
+}
+
+/* Botones */
+.btn-outline-primary {
+    border-color: #007bff; /* Color del borde */
+    color: #007bff; /* Color del texto */
+}
+
+    .btn-outline-primary:hover {
+        background-color: #007bff; /* Color de fondo al pasar el ratón */
+        color: white; /* Color del texto al pasar el ratón */
+    }
+
+/* Tabla */
+.exclusive-table {
+    margin-top: 20px; /* Espaciado superior */
+}
+
+    .exclusive-table th {
+        background-color: #007bff; /* Color de fondo de los encabezados de la tabla */
+        color: white; /* Color del texto de los encabezados */
+    }
+
+    .exclusive-table td {
+        vertical-align: middle; /* Alinear verticalmente el contenido */
+    }

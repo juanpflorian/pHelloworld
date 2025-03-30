@@ -1,0 +1,80 @@
+﻿/* Estilos generales para el contenedor del formulario */
+.form-container {
+    background-color: #f9f9f9; /* Color de fondo claro */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 30px; /* Espaciado interno */
+    max-width: 400px; /* Ancho máximo del formulario */
+    margin: 50px auto; /* Centrar el formulario en la página */
+}
+
+    /* Estilo del título */
+    .form-container h2 {
+        text-align: center; /* Centrar el texto */
+        color: #007bff; /* Color del texto */
+        margin-bottom: 20px; /* Espaciado inferior */
+    }
+
+/* Estilos para los grupos de formulario */
+.form-group {
+    margin-bottom: 15px; /* Espaciado inferior entre grupos */
+}
+
+    /* Estilo de las etiquetas */
+    .form-group label {
+        font-weight: bold; /* Negrita para las etiquetas */
+        color: #333; /* Color del texto */
+    }
+
+/* Estilo de los campos de entrada */
+.form-control {
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    width: 100%; /* Ancho completo */
+    transition: border-color 0.3s; /* Transición suave para el borde */
+}
+
+    /* Efecto al enfocar los campos de entrada */
+    .form-control:focus {
+        border-color: #007bff; /* Cambiar el color del borde al enfocar */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra al enfocar */
+    }
+
+/* Estilo de los mensajes de validación */
+.text-danger {
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+    color: #dc3545; /* Color rojo para mensajes de error */
+}
+
+/* Estilo del botón de registro */
+.btn-primary {
+    background-color: #007bff; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    color: white; /* Color del texto */
+    font-weight: bold; /* Negrita para el texto */
+    width: 100%; /* Ancho completo */
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+}
+
+    /* Efecto al pasar el ratón sobre el botón */
+    .btn-primary:hover {
+        background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+        transform: translateY(-2px); /* Efecto de elevación */
+    }
+
+/* Estilo del enlace de inicio de sesión */
+.form-container p {
+    text-align: center; /* Centrar el texto */
+}
+
+.form-container a {
+    color: #007bff; /* Color del enlace */
+    text-decoration: none; /* Sin subrayado */
+}
+
+    .form-container a:hover {
+        text-decoration: underline; /* Subrayar al pasar el ratón */
+    }

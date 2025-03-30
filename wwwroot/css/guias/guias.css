@@ -1,0 +1,78 @@
+﻿/* Estilos generales */
+body {
+    background-color: #f8f9fa; /* Color de fondo suave */
+}
+
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #343a40; /* Color del texto */
+}
+
+/* Estilos para las tarjetas de guías */
+.guide-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s; /* Efecto de hover */
+}
+
+    .guide-card:hover {
+        transform: scale(1.05); /* Aumentar el tamaño al pasar el mouse */
+    }
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 2px solid #007bff; /* Borde azul */
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: #007bff; /* Color del título */
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Estilos para los filtros */
+.form-select {
+    border-radius: 5px;
+    border: 1px solid #ced4da; /* Borde gris */
+}
+
+    .form-select:focus {
+        border-color: #007bff; /* Borde azul al enfocar */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra azul */
+    }
+
+/* Estilos para la disponibilidad y tarifas */
+.guide-availability,
+.guide-description {
+    font-size: 0.9rem;
+    color: #555; /* Color gris */
+}
+
+.guide-availability {
+    font-weight: bold; /* Negrita para disponibilidad */
+}
+
+/* Botones */
+.btn-primary {
+    background-color: #007bff; /* Color de fondo azul */
+    border: none; /* Sin borde */
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+    }
+
+/* Espaciado */
+.mb-4 {
+    margin-bottom: 1.5rem; /* Espaciado inferior */
+}
