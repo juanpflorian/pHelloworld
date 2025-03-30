@@ -7,13 +7,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using pHelloworld.Filtros;
-using pHelloworld.Controllers; // Para usar _LayoutController
+using pHelloworld.Controllers;
 
-namespace pHelloworld.Controllers { 
-
-
+namespace pHelloworld.Controllers
+{
+    [ServiceFilter(typeof(CargarNotificacionesFiltro))]
     [ServiceFilter(typeof(CargarMensajesFiltro))]
-public class ReservasController : Controller
+    public class ReservasController : Controller
     {
         private readonly AppDbContext _context;
 
@@ -25,7 +25,6 @@ public class ReservasController : Controller
         [HttpGet]
         public async Task<IActionResult> MisReservas()
         {
-            // 🔔 Cargar mensajes para el layout
             var layout = new _LayoutController(_context);
             layout.ControllerContext = this.ControllerContext;
             await layout.CargarMensajesEnViewBag();
@@ -48,72 +47,59 @@ public class ReservasController : Controller
         [HttpPost]
         public async Task<IActionResult> Cancelar([FromBody] int idReserva)
         {
-            Console.WriteLine($"Intentando cancelar la reserva con ID: {idReserva}");
+            var reserva = await _context.Reservas
+                .Include(r => r.Plan)
+                .FirstOrDefaultAsync(r => r.IdReserva == idReserva);
 
-            var reserva = await _context.Reservas.FindAsync(idReserva);
             if (reserva == null)
-            {
-                Console.WriteLine("Reserva no encontrada en la base de datos.");
                 return Json(new { success = false, message = "La reserva no existe." });
-            }
 
             if (reserva.Estado != "Pendiente")
-            {
-                Console.WriteLine("La reserva no está en estado Pendiente.");
                 return Json(new { success = false, message = "Solo se pueden cancelar reservas pendientes." });
-            }
 
             reserva.Estado = "Cancelada";
             await _context.SaveChangesAsync();
 
-            Console.WriteLine("Reserva cancelada con éxito.");
+            // ✅ Cargar el turista para incluir su nombre en la notificación
+            var turista = await _context.Usuarios.FindAsync(reserva.IdTurista);
+
+            // 🔔 Notificación al guía por cancelación
+            var notificacion = new Notificacion
+            {
+                IdUsuario = reserva.IdGuia,
+                Titulo = "Reserva cancelada",
+                Mensaje = $"{turista?.Nombre ?? "Un turista"} ha cancelado la reserva del plan: {reserva.Plan.NombrePlan}",
+                Fecha = DateTime.UtcNow,
+                IdReserva = reserva.IdReserva
+            };
+
+            _context.Notificacion.Add(notificacion);
+            await _context.SaveChangesAsync();
+
             return Json(new { success = true, message = "Reserva cancelada con éxito." });
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Reservar([FromBody] Reserva nuevaReserva)
         {
             try
             {
-                Console.WriteLine("Intentando crear una nueva reserva...");
-
                 if (nuevaReserva == null || nuevaReserva.IdPlan <= 0)
-                {
-                    Console.WriteLine("Datos de reserva inválidos.");
                     return Json(new { success = false, message = "Datos de reserva inválidos." });
-                }
 
                 var usuarioIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (string.IsNullOrEmpty(usuarioIdClaim))
-                {
-                    Console.WriteLine("El usuario no ha iniciado sesión.");
                     return Json(new { success = false, message = "Debes iniciar sesión para reservar un plan." });
-                }
 
                 int usuarioId = int.Parse(usuarioIdClaim);
 
-                // Validación: no permitir fechas pasadas
                 if (nuevaReserva.FechaProgramada.Date < DateTime.UtcNow.Date)
-                {
-                    Console.WriteLine("La fecha programada es anterior a hoy.");
-                    return Json(new { success = false, message = "No puedes reservar una fecha anterior a la de hoy ! :)" });
-                }
+                    return Json(new { success = false, message = "No puedes reservar una fecha anterior a hoy." });
 
-                var plan = await _context.Planes
-                    .Include(p => p.Guia)
-                    .FirstOrDefaultAsync(p => p.IdPlan == nuevaReserva.IdPlan);
-
-                if (plan == null)
-                {
-                    Console.WriteLine("El plan no existe.");
-                    return Json(new { success = false, message = "El plan seleccionado no existe." });
-                }
-
-                if (!plan.IdGuia.HasValue || plan.IdGuia <= 0)
-                {
-                    Console.WriteLine("El plan no tiene un guía asignado.");
-                    return Json(new { success = false, message = "El plan no tiene un guía asignado o el ID es inválido." });
-                }
+                var plan = await _context.Planes.Include(p => p.Guia).FirstOrDefaultAsync(p => p.IdPlan == nuevaReserva.IdPlan);
+                if (plan == null || !plan.IdGuia.HasValue)
+                    return Json(new { success = false, message = "El plan no existe o no tiene guía asignado." });
 
                 var reservaExistente = await _context.Reservas
                     .Where(r => r.IdTurista == usuarioId && r.IdPlan == nuevaReserva.IdPlan)
@@ -121,10 +107,7 @@ public class ReservasController : Controller
                     .FirstOrDefaultAsync();
 
                 if (reservaExistente != null && reservaExistente.Estado != "Cancelada")
-                {
-                    Console.WriteLine("El usuario ya tiene una reserva activa para este plan.");
                     return Json(new { success = false, message = "Ya tienes una reserva activa para este plan." });
-                }
 
                 var reserva = new Reserva
                 {
@@ -142,19 +125,31 @@ public class ReservasController : Controller
                 _context.Reservas.Add(reserva);
                 await _context.SaveChangesAsync();
 
-                string nombreGuia = plan.Guia != null ? plan.Guia.Nombre : "El guía";
-                Console.WriteLine($"Reserva creada exitosamente. {nombreGuia} se contactará con usted.");
-                return Json(new { success = true, message = $"Reserva creada con éxito. {nombreGuia} se contactará con usted pronto." });
+                // 🔔 Notificación al guía
+                var turista = await _context.Usuarios.FindAsync(usuarioId);
+
+                var notificacion = new Notificacion
+                {
+                    IdUsuario = plan.IdGuia.Value,
+                    Titulo = "Nueva reserva creada",
+                    Mensaje = $"{turista?.Nombre ?? "Un turista"} ha reservado tu plan: {plan.NombrePlan} para el {reserva.FechaProgramada:yyyy-MM-dd}.",
+                    Fecha = DateTime.UtcNow,
+                    IdReserva = reserva.IdReserva
+                };
+
+
+                _context.Notificacion.Add(notificacion);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Reserva creada con éxito. El guía se contactará contigo pronto." });
             }
             catch (DbUpdateException dbEx)
             {
                 var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
-                Console.WriteLine($"Error en la base de datos: {innerMessage}");
                 return Json(new { success = false, message = $"Error en la base de datos: {innerMessage}" });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error inesperado: {ex.Message}");
                 return Json(new { success = false, message = $"Error inesperado: {ex.Message}" });
             }
         }

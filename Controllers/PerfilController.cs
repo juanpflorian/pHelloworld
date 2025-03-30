@@ -13,6 +13,7 @@ using pHelloworld.Controllers; // Para acceder al _LayoutController
 
 namespace pHelloworld.Controllers
 {
+    [ServiceFilter(typeof(CargarNotificacionesFiltro))]
     [ServiceFilter(typeof(CargarMensajesFiltro))]
     public class PerfilController : Controller
     {

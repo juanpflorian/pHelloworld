@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace pHelloworld.Controllers
 {
+    [ServiceFilter(typeof(CargarNotificacionesFiltro))]
     [ServiceFilter(typeof(CargarMensajesFiltro))]
     public class MensajesController : Controller
     {
@@ -82,18 +83,8 @@ namespace pHelloworld.Controllers
             _context.Mensaje.Add(mensaje);
             await _context.SaveChangesAsync();
 
-            var notificacion = new Notificacion
-            {
-                IdUsuario = receptorId,
-                Titulo = "Nuevo mensaje recibido",
-                Mensaje = !string.IsNullOrWhiteSpace(contenido) ?
-                          (contenido.Length > 50 ? contenido.Substring(0, 47) + "..." : contenido) :
-                          "[Imagen]",
-                IdMensaje = mensaje.IdMensaje,
-                Fecha = DateTime.UtcNow
-            };
+            
 
-            _context.Notificacion.Add(notificacion);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Chat", new { id = receptorId });

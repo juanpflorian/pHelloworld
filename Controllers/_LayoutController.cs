@@ -7,6 +7,7 @@ using System.Security.Claims;
 namespace pHelloworld.Controllers
 {
     [ServiceFilter(typeof(CargarMensajesFiltro))]
+    [ServiceFilter(typeof(CargarNotificacionesFiltro))] // Este es tu nuevo filtro
     public class _LayoutController : Controller
     {
         private readonly AppDbContext _context;
@@ -16,11 +17,11 @@ namespace pHelloworld.Controllers
             _context = context;
         }
 
-        // ⚠️ Este método es solo demostrativo, el layout no necesita un endpoint
+        // Esto es solo para pruebas
         public async Task<IActionResult> Dummy()
         {
             await CargarMensajesEnViewBag();
-            return View(); // Puedes crear una vista Dummy.cshtml solo para testear
+            return View(); // puedes crear una Dummy.cshtml si quieres ver esto funcionar
         }
 
         public async Task CargarMensajesEnViewBag()

@@ -25,6 +25,8 @@ builder.Services.AddSession();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CargarMensajesFiltro>();
+builder.Services.AddScoped<CargarNotificacionesFiltro>();
+
 
 // Cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

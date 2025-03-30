@@ -59,6 +59,21 @@
             <div class="bt_login_register exclusive-login-register d-flex gap-2">
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <!-- Icono de Notificaciones -->
+                    <li class="list-unstyled">
+                        <a href="#" class="btn btn-light position-relative" data-bs-toggle="modal" data-bs-target="#notificacionesModal">
+                            <i class="bi bi-bell"></i>
+                            @if (ViewBag.CantidadNotificacionesNoLeidas > 0)
+                            {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @ViewBag.CantidadNotificacionesNoLeidas
+                                </span>
+                            }
+                        </a>
+                    </li>
+
+                    
+
                     <li class="list-unstyled">
                         <a href="#" class="btn btn-light position-relative" data-bs-toggle="modal" data-bs-target="#mensajesModal">
                             <i class="bi bi-chat-dots"></i>
@@ -170,6 +185,35 @@
             </div>
         </div>
     </div>
+    <!-- Modal de Notificaciones -->
+    <div class="modal fade" id="notificacionesModal" tabindex="-1" aria-labelledby="notificacionesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="notificacionesModalLabel">Notificaciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    @if (ViewBag.NotificacionesRecibidas != null && ((List<Notificacion>)ViewBag.NotificacionesRecibidas).Count > 0)
+                    {
+                        @foreach (var n in (List<Notificacion>)ViewBag.NotificacionesRecibidas)
+                        {
+                            <div class="border-bottom py-2">
+                                <strong>@n.Titulo</strong><br />
+                                <span class="text-muted">@n.Mensaje</span><br />
+                                <small class="text-secondary">@n.Fecha.ToLocalTime().ToString("g")</small>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted">No tienes notificaciones.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 </html>

@@ -9,6 +9,7 @@ using pHelloworld.Filtros;
 
 namespace pHelloworld.Controllers
 {
+    [ServiceFilter(typeof(CargarNotificacionesFiltro))]
     [ServiceFilter(typeof(CargarMensajesFiltro))]
     public class PlanesController : Controller
     {
