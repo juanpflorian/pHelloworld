@@ -1,0 +1,178 @@
+﻿@model List<pHelloworld.Models.Mensaje>
+@{
+    ViewBag.Title = "Chat con " + ViewBag.ReceptorNombre;
+    int receptorId = ViewBag.ReceptorId;
+
+    var claim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+    int usuarioActualId = claim != null ? int.Parse(claim.Value) : 0;
+
+    string fotoReceptor = ViewBag.ReceptorFoto ?? "~/img/fotoperfil.png";
+    string miFoto = ViewBag.MiFoto ?? "~/img/fotoperfil.png";
+}
+
+<style>
+    .chat-container {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+        .chat-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 5px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:active {
+            background-color: #555;
+        }
+
+    .chat-image {
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 5px;
+        border-radius: 10px;
+    }
+
+    .icono-subida {
+        cursor: pointer;
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    #previewImagen {
+        max-height: 150px;
+        max-width: 150px;
+        display: none;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    #btnCancelarImagen {
+        display: none;
+    }
+</style>
+
+<h2>Chat con @ViewBag.ReceptorNombre</h2>
+
+<div class="chat-container mb-3">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var m in Model)
+        {
+            bool esMio = m.IdEmisor == usuarioActualId;
+            <div class="d-flex @(esMio ? "justify-content-end" : "justify-content-start") mb-2">
+                @if (esMio)
+                {
+                    <div class="d-flex align-items-end gap-2">
+                        <div class="text-end">
+                            <div class="bg-primary text-white p-2 rounded">
+                                @m.Contenido
+                                @if (!string.IsNullOrEmpty(m.ImagenRuta))
+                                {
+                                    <br />
+                                    <img src="@m.ImagenRuta" alt="imagen enviada" class="chat-image" />
+                                }
+                            </div>
+                            <small class="text-muted">@m.FechaEnvio.ToLocalTime()</small>
+                        </div>
+                        <img src="@miFoto" alt="Mi foto" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-end gap-2">
+                        <img src="@fotoReceptor" alt="Foto receptor" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+                        <div>
+                            <div class="bg-light border p-2 rounded">
+                                @m.Contenido
+                                @if (!string.IsNullOrEmpty(m.ImagenRuta))
+                                {
+                                    <br />
+                                    <img src="@m.ImagenRuta" alt="imagen enviada" class="chat-image" />
+                                }
+                            </div>
+                            <small class="text-muted">@m.FechaEnvio.ToLocalTime()</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">No hay mensajes para mostrar.</p>
+    }
+</div>
+
+<hr />
+
+<form asp-action="Enviar" method="post" enctype="multipart/form-data" id="chatForm">
+    <input type="hidden" name="receptorId" value="@receptorId" />
+    <div class="d-flex align-items-center mb-2">
+        <textarea name="contenido" rows="2" class="form-control me-2" style="resize:none" placeholder="Escribe tu mensaje..."></textarea>
+
+        <!-- Ícono para subir imagen -->
+        <label for="imagenInput" class="btn btn-outline-secondary icono-subida mb-0" title="Enviar imagen">
+            <i class="bi bi-image"></i>
+        </label>
+        <input type="file" name="imagen" id="imagenInput" accept="image/*" style="display: none;" />
+    </div>
+
+    <!-- Vista previa y botón cancelar -->
+    <div class="mb-2 d-flex align-items-center gap-2">
+        <img id="previewImagen" class="img-thumbnail" />
+        <button type="button" id="btnCancelarImagen" class="btn btn-sm btn-outline-danger">Cancelar imagen</button>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+<script>
+    const inputImagen = document.getElementById("imagenInput");
+    const preview = document.getElementById("previewImagen");
+    const btnCancelar = document.getElementById("btnCancelarImagen");
+    const chatForm = document.getElementById("chatForm");
+
+    inputImagen.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+                btnCancelar.style.display = "inline-block";
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    btnCancelar.addEventListener("click", function () {
+        inputImagen.value = "";
+        preview.src = "";
+        preview.style.display = "none";
+        btnCancelar.style.display = "none";
+    });
+
+    chatForm.addEventListener("submit", function () {
+        // Limpieza visual luego de enviar
+        preview.src = "";
+        preview.style.display = "none";
+        btnCancelar.style.display = "none";
+        inputImagen.value = "";
+    });
+</script>

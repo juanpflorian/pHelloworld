@@ -9,9 +9,13 @@ public class AppDbContext : DbContext
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Reserva> Reservas { get; set; }
     public DbSet<Plan> Planes { get; set; }
+    public DbSet<Mensaje> Mensaje { get; set; }
+    public DbSet<Notificacion> Notificacion { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Relaciones existentes
         modelBuilder.Entity<Reserva>()
             .HasOne(r => r.Turista)
             .WithMany()
@@ -30,12 +34,51 @@ public class AppDbContext : DbContext
             .HasForeignKey(p => p.IdGuia)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // 🆕 Relaciones para Mensaje
+        modelBuilder.Entity<Mensaje>()
+            .HasOne(m => m.Emisor)
+            .WithMany()
+            .HasForeignKey(m => m.IdEmisor)
+            .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<Mensaje>()
+            .HasOne(m => m.Receptor)
+            .WithMany()
+            .HasForeignKey(m => m.IdReceptor)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // 🆕 Relaciones para Notificación
+        modelBuilder.Entity<Notificacion>()
+            .HasOne(n => n.Usuario)
+            .WithMany()
+            .HasForeignKey(n => n.IdUsuario)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Notificacion>()
+            .HasOne(n => n.Plan)
+            .WithMany()
+            .HasForeignKey(n => n.IdPlan)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Notificacion>()
+            .HasOne(n => n.Reserva)
+            .WithMany()
+            .HasForeignKey(n => n.IdReserva)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Notificacion>()
+            .HasOne(n => n.MensajeRelacionado)
+            .WithMany()
+            .HasForeignKey(n => n.IdMensaje)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Clave primaria explícita (ya estaba)
         modelBuilder.Entity<Usuario>()
-            .HasKey(u => u.id_usuario); 
+            .HasKey(u => u.id_usuario);
 
-             base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
+
 
     public async Task<Usuario?> GetCredencial(string correo)
     {

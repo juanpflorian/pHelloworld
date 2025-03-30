@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace pHelloworld.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250319051626_AgregarIdPlanAReservas")]
-    partial class AgregarIdPlanAReservas
+    [Migration("20250330064444_AddMensajesYNotificaciones")]
+    partial class AddMensajesYNotificaciones
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,6 +96,86 @@ namespace pHelloworld.Migrations
                     b.HasKey("id_usuario");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("pHelloworld.Models.Mensaje", b =>
+                {
+                    b.Property<int>("IdMensaje")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdMensaje"));
+
+                    b.Property<string>("Contenido")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("FechaEnvio")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("IdEmisor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdReceptor")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Leido")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("IdMensaje");
+
+                    b.HasIndex("IdEmisor");
+
+                    b.HasIndex("IdReceptor");
+
+                    b.ToTable("Mensaje");
+                });
+
+            modelBuilder.Entity("pHelloworld.Models.Notificacion", b =>
+                {
+                    b.Property<int>("IdNotificacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdNotificacion"));
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("IdMensaje")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdPlan")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdReserva")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Leido")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Mensaje")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("IdNotificacion");
+
+                    b.HasIndex("IdMensaje");
+
+                    b.HasIndex("IdPlan");
+
+                    b.HasIndex("IdReserva");
+
+                    b.HasIndex("IdUsuario");
+
+                    b.ToTable("Notificacion");
                 });
 
             modelBuilder.Entity("pHelloworld.Models.Plan", b =>
@@ -201,6 +281,57 @@ namespace pHelloworld.Migrations
                     b.HasIndex("IdTurista");
 
                     b.ToTable("Reservas");
+                });
+
+            modelBuilder.Entity("pHelloworld.Models.Mensaje", b =>
+                {
+                    b.HasOne("Usuario", "Emisor")
+                        .WithMany()
+                        .HasForeignKey("IdEmisor")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Usuario", "Receptor")
+                        .WithMany()
+                        .HasForeignKey("IdReceptor")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Emisor");
+
+                    b.Navigation("Receptor");
+                });
+
+            modelBuilder.Entity("pHelloworld.Models.Notificacion", b =>
+                {
+                    b.HasOne("pHelloworld.Models.Mensaje", "MensajeRelacionado")
+                        .WithMany()
+                        .HasForeignKey("IdMensaje")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("pHelloworld.Models.Plan", "Plan")
+                        .WithMany()
+                        .HasForeignKey("IdPlan")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("pHelloworld.Models.Reserva", "Reserva")
+                        .WithMany()
+                        .HasForeignKey("IdReserva")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("MensajeRelacionado");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("Reserva");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("pHelloworld.Models.Plan", b =>

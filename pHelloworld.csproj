@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\home\" />
+    <Folder Include="wwwroot\img\chat\" />
   </ItemGroup>
 
 </Project>

@@ -7,10 +7,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using pHelloworld.Filtros;
 using System.Threading.Tasks;
+using pHelloworld.Controllers; // Para acceder al _LayoutController
 
 namespace pHelloworld.Controllers
 {
+    [ServiceFilter(typeof(CargarMensajesFiltro))]
     public class PerfilController : Controller
     {
         private readonly AppDbContext _context;
@@ -26,21 +29,20 @@ namespace pHelloworld.Controllers
         public async Task<IActionResult> Perfil()
         {
             if (!User.Identity.IsAuthenticated)
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
+
+            // 🔔 Cargar mensajes para el layout
+            var layout = new _LayoutController(_context);
+            layout.ControllerContext = this.ControllerContext;
+            await layout.CargarMensajesEnViewBag();
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(userIdClaim, out int userId))
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null)
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             var perfilViewModel = new Perfil
             {
@@ -55,8 +57,8 @@ namespace pHelloworld.Controllers
                 Especialidad = usuario.Especialidad ?? "No especificada",
                 Experiencia = usuario.Experiencia ?? "No especificada",
                 Disponibilidad = usuario.Disponibilidad ?? "No especificada",
-                TarifaHora = usuario.TarifaHora ?? 0m,  
-                TarifaTour = usuario.TarifaTour ?? 0m,  
+                TarifaHora = usuario.TarifaHora ?? 0m,
+                TarifaTour = usuario.TarifaTour ?? 0m,
                 foto_perfil = string.IsNullOrEmpty(usuario.foto_perfil) ? "~/img/fotoperfil.png" : usuario.foto_perfil
             };
 
@@ -67,21 +69,20 @@ namespace pHelloworld.Controllers
         public async Task<IActionResult> ModificarPerfil()
         {
             if (!User.Identity.IsAuthenticated)
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
+
+            // 🔔 Cargar mensajes para el layout
+            var layout = new _LayoutController(_context);
+            layout.ControllerContext = this.ControllerContext;
+            await layout.CargarMensajesEnViewBag();
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(userIdClaim, out int userId))
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null)
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             var perfilViewModel = new Perfil
             {
@@ -96,9 +97,8 @@ namespace pHelloworld.Controllers
                 Especialidad = usuario.Especialidad ?? "No especificada",
                 Experiencia = usuario.Experiencia ?? "No especificada",
                 Disponibilidad = usuario.Disponibilidad ?? "No especificada",
-                TarifaHora = usuario.TarifaHora ?? 0m,  
-                TarifaTour = usuario.TarifaTour ?? 0m, 
-                
+                TarifaHora = usuario.TarifaHora ?? 0m,
+                TarifaTour = usuario.TarifaTour ?? 0m,
                 foto_perfil = string.IsNullOrEmpty(usuario.foto_perfil) ? "~/img/fotoperfil.png" : usuario.foto_perfil
             };
 
@@ -109,21 +109,15 @@ namespace pHelloworld.Controllers
         public async Task<IActionResult> EditarPerfil(Perfil model, IFormFile FotoPerfil)
         {
             if (!User.Identity.IsAuthenticated)
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(userIdClaim, out int userId))
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             var usuario = await _context.Usuarios.FindAsync(userId);
             if (usuario == null)
-            {
                 return RedirectToAction("IniciarSesion", "Login");
-            }
 
             // Modificables por todos los usuarios
             usuario.usuario = model.usuario ?? usuario.usuario;
@@ -142,8 +136,6 @@ namespace pHelloworld.Controllers
                 usuario.Disponibilidad = model.Disponibilidad ?? usuario.Disponibilidad;
                 usuario.TarifaHora = (decimal?)model.TarifaHora ?? 0;
                 usuario.TarifaTour = (decimal?)model.TarifaTour ?? 0;
-
-
             }
 
             if (FotoPerfil != null && FotoPerfil.Length > 0)

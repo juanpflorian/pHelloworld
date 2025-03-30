@@ -6,10 +6,14 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using pHelloworld.Filtros;
+using pHelloworld.Controllers; // Para usar _LayoutController
 
-namespace pHelloworld.Controllers
-{
-    public class ReservasController : Controller
+namespace pHelloworld.Controllers { 
+
+
+    [ServiceFilter(typeof(CargarMensajesFiltro))]
+public class ReservasController : Controller
     {
         private readonly AppDbContext _context;
 
@@ -21,6 +25,11 @@ namespace pHelloworld.Controllers
         [HttpGet]
         public async Task<IActionResult> MisReservas()
         {
+            // 🔔 Cargar mensajes para el layout
+            var layout = new _LayoutController(_context);
+            layout.ControllerContext = this.ControllerContext;
+            await layout.CargarMensajesEnViewBag();
+
             var idUsuarioClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(idUsuarioClaim))
                 return Unauthorized("Debes iniciar sesión para ver tus reservas.");
@@ -30,14 +39,12 @@ namespace pHelloworld.Controllers
             var reservas = await _context.Reservas
                 .Include(r => r.Guia)
                 .Include(r => r.Plan)
-                .Where(r => r.IdTurista == idUsuario && r.Estado != "Cancelada") 
+                .Where(r => r.IdTurista == idUsuario && r.Estado != "Cancelada")
                 .ToListAsync();
 
             return View("~/Views/Gestion/Reservas.cshtml", reservas);
         }
 
-
-        
         [HttpPost]
         public async Task<IActionResult> Cancelar([FromBody] int idReserva)
         {
@@ -63,7 +70,6 @@ namespace pHelloworld.Controllers
             return Json(new { success = true, message = "Reserva cancelada con éxito." });
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Reservar([FromBody] Reserva nuevaReserva)
         {
@@ -86,7 +92,7 @@ namespace pHelloworld.Controllers
 
                 int usuarioId = int.Parse(usuarioIdClaim);
 
-                // Validación importante: no permitir fechas pasadas
+                // Validación: no permitir fechas pasadas
                 if (nuevaReserva.FechaProgramada.Date < DateTime.UtcNow.Date)
                 {
                     Console.WriteLine("La fecha programada es anterior a hoy.");
@@ -152,8 +158,5 @@ namespace pHelloworld.Controllers
                 return Json(new { success = false, message = $"Error inesperado: {ex.Message}" });
             }
         }
-
-
-
     }
 }

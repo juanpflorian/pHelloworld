@@ -1,10 +1,10 @@
 using pHelloworld.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using pHelloworld.Filtros;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Obtener la cadena de conexión desde appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
@@ -12,24 +12,21 @@ if (string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("La cadena de conexión 'DefaultConnection' no está configurada en appsettings.json.");
 }
 
-Console.WriteLine($"Connection String: {connectionString}"); // Para verificar la cadena de conexión
+Console.WriteLine($"Connection String: {connectionString}");
 
-// Configurar Entity Framework con MySQL
+// Configurar EF con MySQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
 
-// Agregar servicios MVC
+// Servicios MVC y sesión
 builder.Services.AddControllersWithViews();
-
-// Habilitar sesiones
 builder.Services.AddSession();
 builder.Services.AddDistributedMemoryCache();
-
-// Registrar IHttpContextAccessor ?? Agrega esta línea
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CargarMensajesFiltro>();
 
-// Configurar autenticación con cookies
+// Cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -38,7 +35,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Auth/AccessDenied";
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
 
-        // Configurar el evento de redirección al login
         options.Events.OnRedirectToLogin = context =>
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -46,17 +42,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         };
     });
 
-// Configurar autorización
+// Autorización
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("EsGuia", policy =>
         policy.RequireClaim("TipoUsuario", "Guía"));
 });
 
-// Construir la aplicación después de configurar los servicios
 var app = builder.Build();
 
-// Configurar el middleware de la aplicación
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -67,21 +62,27 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseSession(); // Habilitar sesiones antes de la autenticación
+app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.UseAuthentication(); // Importante: primero la autenticación
-app.UseAuthorization();  // Luego la autorización
-
-// Configurar rutas
+// Rutas
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
-);
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "guias",
     pattern: "Guias",
-    defaults: new { controller = "Guias", action = "guias" }
-);
+    defaults: new { controller = "Guias", action = "guias" });
 
-// Ejecutar la aplicación
-app.Run();
+try
+{
+    app.Run();  // Solo este
+}
+catch (Exception ex)
+{
+    Console.WriteLine("ERROR AL INICIAR:");
+    Console.WriteLine(ex.Message);
+    Console.WriteLine(ex.StackTrace);
+}

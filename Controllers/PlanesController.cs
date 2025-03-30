@@ -4,9 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using pHelloworld.Data;
+using pHelloworld.Controllers; // 👈 Importante para usar _LayoutController
+using pHelloworld.Filtros;
 
 namespace pHelloworld.Controllers
 {
+    [ServiceFilter(typeof(CargarMensajesFiltro))]
     public class PlanesController : Controller
     {
         private readonly AppDbContext _context;
@@ -18,6 +21,11 @@ namespace pHelloworld.Controllers
 
         public async Task<IActionResult> Planes()
         {
+            // 🔔 Cargar mensajes para el layout
+            var layout = new _LayoutController(_context);
+            layout.ControllerContext = this.ControllerContext;
+            await layout.CargarMensajesEnViewBag();
+
             var idUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewBag.IdUsuario = idUsuario;
 

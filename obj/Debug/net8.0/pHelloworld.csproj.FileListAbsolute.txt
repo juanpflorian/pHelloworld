@@ -107,6 +107,7 @@ C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\pHelloworld.csproj.CoreC
 C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\pHelloworld.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\pHelloworld.RazorAssemblyInfo.cache
 C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\pHelloworld.RazorAssemblyInfo.cs
+C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\pHelloworld.sourcelink.json
 C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Juan\source\repos\pHelloworld\obj\Debug\net8.0\staticwebassets\msbuild.pHelloworld.Microsoft.AspNetCore.StaticWebAssets.props

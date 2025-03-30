@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\img\\1cfa25a4-279e-43ef-957b-16226f2dcb3f_moradin.jpg"
     },
     {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\38ac7d42-ebfe-47bb-8060-16f6df33ec34_FOTOJULIAN.jpg",
+      "PackagePath": "staticwebassets\\img\\38ac7d42-ebfe-47bb-8060-16f6df33ec34_FOTOJULIAN.jpg"
+    },
+    {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\3d33f402-5586-4b6a-9039-6e5d98da15db_fotoperfil.png",
       "PackagePath": "staticwebassets\\img\\3d33f402-5586-4b6a-9039-6e5d98da15db_fotoperfil.png"
     },
@@ -73,12 +77,24 @@
       "PackagePath": "staticwebassets\\img\\ce8d3c10-70d4-4e5a-bd0a-7b76270e4124_fotoperfilCAMILO.PNG"
     },
     {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\chat\\10c71a4b-5af8-4ebd-abd9-2130a88012bb_WhatsApp Image 2025-03-30 at 2.13.06 PM.jpeg",
+      "PackagePath": "staticwebassets\\img\\chat\\10c71a4b-5af8-4ebd-abd9-2130a88012bb_WhatsApp Image 2025-03-30 at 2.13.06 PM.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\chat\\a83020de-e433-4956-9f88-4577533ac932_WhatsApp Image 2025-03-30 at 2.20.44 PM.jpeg",
+      "PackagePath": "staticwebassets\\img\\chat\\a83020de-e433-4956-9f88-4577533ac932_WhatsApp Image 2025-03-30 at 2.20.44 PM.jpeg"
+    },
+    {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\e19f45f3-cb35-4688-96a6-520ca33ca8d9_fotoJUAN.jpg",
       "PackagePath": "staticwebassets\\img\\e19f45f3-cb35-4688-96a6-520ca33ca8d9_fotoJUAN.jpg"
     },
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\ea920f3a-e10e-45e4-908e-b7cef13e893d_moradin.jpg",
       "PackagePath": "staticwebassets\\img\\ea920f3a-e10e-45e4-908e-b7cef13e893d_moradin.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\f6c3ed25-a5b7-49f1-ae02-d484057a7ede_sney.jpg",
+      "PackagePath": "staticwebassets\\img\\f6c3ed25-a5b7-49f1-ae02-d484057a7ede_sney.jpg"
     },
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\fd233244-6814-4ae4-a75c-43667c00331b_SENA.jpg",

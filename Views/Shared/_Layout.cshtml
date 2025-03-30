@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using pHelloworld.Models
+@using System.Collections.Generic
+
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -55,6 +59,18 @@
             <div class="bt_login_register exclusive-login-register d-flex gap-2">
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li class="list-unstyled">
+                        <a href="#" class="btn btn-light position-relative" data-bs-toggle="modal" data-bs-target="#mensajesModal">
+                            <i class="bi bi-chat-dots"></i>
+                            @if (ViewBag.CantidadMensajesNoLeidos > 0)
+                            {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @ViewBag.CantidadMensajesNoLeidos
+                                </span>
+                            }
+                        </a>
+                    </li>
+
                     <li class="list-unstyled">
                         <a asp-controller="Perfil" asp-action="Perfil" class="btn btn-outline-light exclusive-btn-account">Mi Perfil</a>
                     </li>
@@ -122,6 +138,38 @@
 
 
     @RenderSection("Scripts", required: false)
+    <!-- Modal de Mensajes -->
+    <div class="modal fade" id="mensajesModal" tabindex="-1" aria-labelledby="mensajesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="mensajesModalLabel">Mensajes Recibidos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    @if (ViewBag.MensajesRecibidos != null)
+                    {
+                        @foreach (var item in (List<(Usuario Emisor, Mensaje UltimoMensaje)>)ViewBag.MensajesRecibidos)
+                        {
+                            <a asp-controller="Mensajes" asp-action="Chat" asp-route-id="@item.Emisor.id_usuario" class="text-decoration-none text-dark">
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <img src="@item.Emisor.foto_perfil" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div>
+                                        <strong>@item.Emisor.Nombre</strong><br />
+                                        <span class="text-muted">@item.UltimoMensaje.Contenido</span>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted">No tienes mensajes recientes.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

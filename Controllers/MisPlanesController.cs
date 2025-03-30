@@ -1,14 +1,17 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pHelloworld.Data;
 using pHelloworld.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using pHelloworld.Filtros;
+using pHelloworld.Controllers; // Necesario para _LayoutController
+
 
 namespace pHelloworld.Controllers
 {
+    [ServiceFilter(typeof(CargarMensajesFiltro))]
     [Authorize(Roles = "Guía")] // solo guías pueden acceder
     public class MisplanesController : Controller
     {
@@ -21,6 +24,11 @@ namespace pHelloworld.Controllers
 
         public async Task<IActionResult> MisPlanes()
         {
+            // 🔔 Cargar mensajes para el layout
+            var layout = new _LayoutController(_context);
+            layout.ControllerContext = this.ControllerContext;
+            await layout.CargarMensajesEnViewBag();
+
             // Obtener id del usuario autenticado desde los claims
             var idGuia = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -92,10 +100,5 @@ namespace pHelloworld.Controllers
 
             return Ok(new { mensaje = "Plan creado con éxito" });
         }
-
-
-
-
-
     }
 }

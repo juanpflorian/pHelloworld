@@ -2,22 +2,28 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using pHelloworld.Models;
+using pHelloworld.Filtros;
 
-public class GuiasController : Controller
+namespace pHelloworld.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public GuiasController(AppDbContext context)
+    [ServiceFilter(typeof(CargarMensajesFiltro))]
+    public class GuiasController : Controller
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
 
-    public async Task<IActionResult> guias()
-    {
-        var guias = await _context.Usuarios
-            .Where(u => u.Tipo_Usuario == "Guía")  
-            .ToListAsync();
+        public GuiasController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-        return View(guias);
+        public async Task<IActionResult> guias()
+        {
+            var guias = await _context.Usuarios
+                .Where(u => u.Tipo_Usuario == "Guía")
+                .ToListAsync();
+
+            return View(guias);
+        }
     }
 }
