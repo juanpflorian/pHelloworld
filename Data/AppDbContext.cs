@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
     public DbSet<Plan> Planes { get; set; }
     public DbSet<Mensaje> Mensaje { get; set; }
     public DbSet<Notificacion> Notificacion { get; set; }
+    public DbSet<Opinion> Opiniones { get; set; }
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -77,7 +79,24 @@ public class AppDbContext : DbContext
             .HasKey(u => u.id_usuario);
 
         base.OnModelCreating(modelBuilder);
+
+        
+
+        modelBuilder.Entity<Opinion>()
+            .HasOne(o => o.Guia)
+            .WithMany(u => u.OpinionesRecibidas)
+            .HasForeignKey(o => o.IdGuia)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Opinion>()
+            .HasOne(o => o.Turista)
+            .WithMany()
+            .HasForeignKey(o => o.IdTurista)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
     }
+
 
 
     public async Task<Usuario?> GetCredencial(string correo)

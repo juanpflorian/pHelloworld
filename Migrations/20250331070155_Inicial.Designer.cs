@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace pHelloworld.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250330064444_AddMensajesYNotificaciones")]
-    partial class AddMensajesYNotificaciones
+    [Migration("20250331070155_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,40 @@ namespace pHelloworld.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("Opinion", b =>
+                {
+                    b.Property<int>("IdOpinion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdOpinion"));
+
+                    b.Property<int>("Calificacion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("IdGuia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTurista")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdOpinion");
+
+                    b.HasIndex("IdGuia");
+
+                    b.HasIndex("IdTurista");
+
+                    b.ToTable("Opiniones");
+                });
 
             modelBuilder.Entity("Usuario", b =>
                 {
@@ -118,6 +152,9 @@ namespace pHelloworld.Migrations
 
                     b.Property<int>("IdReceptor")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagenRuta")
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("Leido")
                         .HasColumnType("tinyint(1)");
@@ -283,6 +320,25 @@ namespace pHelloworld.Migrations
                     b.ToTable("Reservas");
                 });
 
+            modelBuilder.Entity("Opinion", b =>
+                {
+                    b.HasOne("Usuario", "Guia")
+                        .WithMany("OpinionesRecibidas")
+                        .HasForeignKey("IdGuia")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Usuario", "Turista")
+                        .WithMany()
+                        .HasForeignKey("IdTurista")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Guia");
+
+                    b.Navigation("Turista");
+                });
+
             modelBuilder.Entity("pHelloworld.Models.Mensaje", b =>
                 {
                     b.HasOne("Usuario", "Emisor")
@@ -369,6 +425,11 @@ namespace pHelloworld.Migrations
                     b.Navigation("Plan");
 
                     b.Navigation("Turista");
+                });
+
+            modelBuilder.Entity("Usuario", b =>
+                {
+                    b.Navigation("OpinionesRecibidas");
                 });
 #pragma warning restore 612, 618
         }

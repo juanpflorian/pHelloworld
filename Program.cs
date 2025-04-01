@@ -2,6 +2,7 @@ using pHelloworld.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using pHelloworld.Filtros;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CargarMensajesFiltro>();
 builder.Services.AddScoped<CargarNotificacionesFiltro>();
 
+// ? Configurar tamaño máximo para subida de archivos (antes de Build)
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100MB
+});
 
 // Cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

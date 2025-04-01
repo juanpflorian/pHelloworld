@@ -26,6 +26,11 @@
         <div class="text-center mb-4">
             <img id="exclusive-perfilImage" src="@($"{Model.foto_perfil}?t={DateTime.Now.Ticks}")" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
         </div>
+        @if ((double)ViewBag.PromedioCalificacion > 0)
+        {
+            <p><strong>Calificación promedio:</strong> @(((double)ViewBag.PromedioCalificacion).ToString("0.0")) ⭐</p>
+        }
+
 
         <h2 class="text-center">Detalles de mi perfil</h2>
         <div class="text-center mb-3">
@@ -63,6 +68,26 @@
                 }
             </tbody>
         </table>
+        <hr />
+        <h3 class="mt-5">Opiniones Recibidas</h3>
+
+        @if (ViewBag.Opiniones is List<Opinion> opiniones && opiniones.Any())
+        {
+            foreach (var opinion in opiniones)
+            {
+                <div class="border p-3 mb-3 rounded shadow-sm">
+                    <strong>@opinion.Turista?.Nombre</strong>
+                    <span class="text-warning">(@opinion.Calificacion ⭐)</span><br />
+                    <p class="mt-2">@opinion.Comentario</p>
+                    <small class="text-muted">@opinion.Fecha.ToLocalTime().ToString("g")</small>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">Aún no has recibido opiniones.</p>
+        }
+
     </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

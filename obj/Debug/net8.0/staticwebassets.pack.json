@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\img\\0972a58e-2f35-43b0-a98b-0aba488d0a89_perfil.jpg"
     },
     {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\0b4b3311-05c8-45b8-9a5e-151724463314_PERFILMORADO.jpg",
+      "PackagePath": "staticwebassets\\img\\0b4b3311-05c8-45b8-9a5e-151724463314_PERFILMORADO.jpg"
+    },
+    {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\10d805af-81ec-415a-958a-e40ac164e49a_FOTOJULIAN.jpg",
       "PackagePath": "staticwebassets\\img\\10d805af-81ec-415a-958a-e40ac164e49a_FOTOJULIAN.jpg"
     },
@@ -61,6 +65,10 @@
       "PackagePath": "staticwebassets\\img\\862ead7c-b237-457d-9717-ac3759931807_lineas.jpg"
     },
     {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\8e362bcb-b510-42d8-80cc-5fc09a708b81_1.jpg",
+      "PackagePath": "staticwebassets\\img\\8e362bcb-b510-42d8-80cc-5fc09a708b81_1.jpg"
+    },
+    {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\8efa9506-a95e-47b1-ac12-04ea34852a34_FOTOJULIAN.jpg",
       "PackagePath": "staticwebassets\\img\\8efa9506-a95e-47b1-ac12-04ea34852a34_FOTOJULIAN.jpg"
     },
@@ -81,12 +89,24 @@
       "PackagePath": "staticwebassets\\img\\chat\\10c71a4b-5af8-4ebd-abd9-2130a88012bb_WhatsApp Image 2025-03-30 at 2.13.06 PM.jpeg"
     },
     {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\chat\\406ff3b5-ab42-4696-9cf4-0a1f94ba30e6_perfil.jpg",
+      "PackagePath": "staticwebassets\\img\\chat\\406ff3b5-ab42-4696-9cf4-0a1f94ba30e6_perfil.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\chat\\7307a1cc-9b1d-4061-9f9d-ad6e0e76e1be_WhatsApp Image 2025-03-30 at 2.13.06 PM.jpeg",
+      "PackagePath": "staticwebassets\\img\\chat\\7307a1cc-9b1d-4061-9f9d-ad6e0e76e1be_WhatsApp Image 2025-03-30 at 2.13.06 PM.jpeg"
+    },
+    {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\chat\\a83020de-e433-4956-9f88-4577533ac932_WhatsApp Image 2025-03-30 at 2.20.44 PM.jpeg",
       "PackagePath": "staticwebassets\\img\\chat\\a83020de-e433-4956-9f88-4577533ac932_WhatsApp Image 2025-03-30 at 2.20.44 PM.jpeg"
     },
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\e19f45f3-cb35-4688-96a6-520ca33ca8d9_fotoJUAN.jpg",
       "PackagePath": "staticwebassets\\img\\e19f45f3-cb35-4688-96a6-520ca33ca8d9_fotoJUAN.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\e59e1993-3b78-4cc4-ad13-e06c5c502fa5_sney.jpg",
+      "PackagePath": "staticwebassets\\img\\e59e1993-3b78-4cc4-ad13-e06c5c502fa5_sney.jpg"
     },
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\ea920f3a-e10e-45e4-908e-b7cef13e893d_moradin.jpg",

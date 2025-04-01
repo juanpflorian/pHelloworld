@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pHelloworld.Migrations
 {
     /// <inheritdoc />
-    public partial class AddMensajesYNotificaciones : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,6 +67,8 @@ namespace pHelloworld.Migrations
                     IdReceptor = table.Column<int>(type: "int", nullable: false),
                     Contenido = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImagenRuta = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaEnvio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Leido = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
@@ -82,6 +84,37 @@ namespace pHelloworld.Migrations
                     table.ForeignKey(
                         name: "FK_Mensaje_Usuarios_IdReceptor",
                         column: x => x.IdReceptor,
+                        principalTable: "Usuarios",
+                        principalColumn: "id_usuario",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Opiniones",
+                columns: table => new
+                {
+                    IdOpinion = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IdTurista = table.Column<int>(type: "int", nullable: false),
+                    IdGuia = table.Column<int>(type: "int", nullable: false),
+                    Calificacion = table.Column<int>(type: "int", nullable: false),
+                    Comentario = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Fecha = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Opiniones", x => x.IdOpinion);
+                    table.ForeignKey(
+                        name: "FK_Opiniones_Usuarios_IdGuia",
+                        column: x => x.IdGuia,
+                        principalTable: "Usuarios",
+                        principalColumn: "id_usuario",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Opiniones_Usuarios_IdTurista",
+                        column: x => x.IdTurista,
                         principalTable: "Usuarios",
                         principalColumn: "id_usuario",
                         onDelete: ReferentialAction.Restrict);
@@ -239,6 +272,16 @@ namespace pHelloworld.Migrations
                 column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Opiniones_IdGuia",
+                table: "Opiniones",
+                column: "IdGuia");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Opiniones_IdTurista",
+                table: "Opiniones",
+                column: "IdTurista");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Planes_id_guia",
                 table: "Planes",
                 column: "id_guia");
@@ -264,6 +307,9 @@ namespace pHelloworld.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Notificacion");
+
+            migrationBuilder.DropTable(
+                name: "Opiniones");
 
             migrationBuilder.DropTable(
                 name: "Mensaje");

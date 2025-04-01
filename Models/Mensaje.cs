@@ -17,8 +17,9 @@ namespace pHelloworld.Models
         public int IdReceptor { get; set; }
         public Usuario Receptor { get; set; }
 
-        [Required]
-        public string Contenido { get; set; }
+        [MaxLength(1000)]
+        public string? Contenido { get; set; }
+
         public string? ImagenRuta { get; set; }
         public DateTime FechaEnvio { get; set; } = DateTime.UtcNow;
 

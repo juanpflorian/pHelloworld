@@ -45,46 +45,66 @@ namespace pHelloworld.Controllers
             return View(mensajes);
         }
 
-        // POST: Mensajes/Enviar
         [HttpPost]
-        public async Task<IActionResult> Enviar(int receptorId, string contenido, IFormFile imagen)
+        public async Task<IActionResult> Enviar(int receptorId, string? contenido, IFormFile imagen)
         {
             var idUsuarioActual = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            string rutaImagen = null;
+            string? rutaImagen = null;
 
+            Console.WriteLine($"📤 Imagen recibida: {imagen?.FileName} - Tamaño: {imagen?.Length}");
+
+            // Subida de imagen si hay
             if (imagen != null && imagen.Length > 0)
             {
-                string carpetaDestino = Path.Combine(_webHostEnvironment.WebRootPath, "img", "chat");
-
-                if (!Directory.Exists(carpetaDestino))
-                    Directory.CreateDirectory(carpetaDestino);
-
-                string nombreArchivo = $"{Guid.NewGuid()}_{Path.GetFileName(imagen.FileName)}";
-                string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
-
-                using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                try
                 {
-                    await imagen.CopyToAsync(stream);
-                }
+                    string carpetaDestino = Path.Combine(_webHostEnvironment.WebRootPath, "img", "chat");
+                    Console.WriteLine($"🛠 Ruta física: {carpetaDestino}");
 
-                rutaImagen = $"/img/chat/{nombreArchivo}";
+                    if (!Directory.Exists(carpetaDestino))
+                    {
+                        Console.WriteLine("📁 Carpeta no existe, se crea.");
+                        Directory.CreateDirectory(carpetaDestino);
+                    }
+
+                    string nombreArchivo = $"{Guid.NewGuid()}_{Path.GetFileName(imagen.FileName)}";
+                    string rutaCompleta = Path.Combine(carpetaDestino, nombreArchivo);
+                    Console.WriteLine($"💾 Guardando imagen en: {rutaCompleta}");
+
+                    using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                    {
+                        await imagen.CopyToAsync(stream);
+                    }
+
+                    rutaImagen = $"/img/chat/{nombreArchivo}";
+                    Console.WriteLine($"✅ Imagen guardada correctamente: {rutaImagen}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error al guardar la imagen: {ex.Message}");
+                    TempData["Error"] = "Ocurrió un error al guardar la imagen.";
+                    return RedirectToAction("Chat", new { id = receptorId });
+                }
+            }
+
+            // Validar que haya contenido o imagen
+            if (string.IsNullOrWhiteSpace(contenido) && string.IsNullOrEmpty(rutaImagen))
+            {
+                TempData["Error"] = "Debes enviar un mensaje o una imagen.";
+                return RedirectToAction("Chat", new { id = receptorId });
             }
 
             var mensaje = new Mensaje
             {
                 IdEmisor = idUsuarioActual,
                 IdReceptor = receptorId,
-                Contenido = contenido,
+                Contenido = string.IsNullOrWhiteSpace(contenido) ? null : contenido,
                 ImagenRuta = rutaImagen,
                 FechaEnvio = DateTime.UtcNow,
                 Leido = false
             };
 
             _context.Mensaje.Add(mensaje);
-            await _context.SaveChangesAsync();
-
-            
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Chat", new { id = receptorId });

@@ -24,7 +24,42 @@ namespace pHelloworld.Controllers
                 .Where(u => u.Tipo_Usuario == "Guía")
                 .ToListAsync();
 
-            return View(guias);
+            // 🔁 Cambio aquí: hacerlo secuencialmente
+            var guiasConOpiniones = new List<(Usuario guia, double promedio)>();
+
+            foreach (var g in guias)
+            {
+                var promedio = await _context.Opiniones
+                    .Where(o => o.IdGuia == g.id_usuario)
+                    .Select(o => (double?)o.Calificacion)
+                    .AverageAsync() ?? 0.0;
+
+                guiasConOpiniones.Add((g, promedio));
+            }
+
+            ViewBag.GuiasConCalificacion = guiasConOpiniones;
+
+            return View();
+        }
+
+        [ActionName("Perfil")] // <- Cambiamos la ruta para que sea /Guias/Perfil/{id}
+        public async Task<IActionResult> PerfilGuia(int id)
+        {
+            var guia = await _context.Usuarios.FindAsync(id);
+            if (guia == null) return NotFound();
+
+            var opiniones = await _context.Opiniones
+                .Include(o => o.Turista)
+                .Where(o => o.IdGuia == id)
+                .OrderByDescending(o => o.Fecha)
+                .ToListAsync();
+
+            var promedio = opiniones.Any() ? opiniones.Average(o => o.Calificacion) : 0;
+
+            ViewBag.Opiniones = opiniones;
+            ViewBag.PromedioCalificacion = promedio;
+
+            return View("~/Views/perfil/perfilPublico.cshtml", guia);
         }
     }
 }

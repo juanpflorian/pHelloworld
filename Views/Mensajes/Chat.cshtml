@@ -91,13 +91,17 @@
                             </div>
                             <small class="text-muted">@m.FechaEnvio.ToLocalTime()</small>
                         </div>
-                        <img src="@miFoto" alt="Mi foto" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+                        <a asp-controller="Guias" asp-action="Perfil" asp-route-id="@usuarioActualId">
+                            <img src="@miFoto" alt="Mi foto" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+                        </a>
                     </div>
                 }
                 else
                 {
                     <div class="d-flex align-items-end gap-2">
-                        <img src="@fotoReceptor" alt="Foto receptor" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+                        <a asp-controller="Guias" asp-action="Perfil" asp-route-id="@receptorId">
+                            <img src="@fotoReceptor" alt="Foto receptor" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+                        </a>
                         <div>
                             <div class="bg-light border p-2 rounded">
                                 @m.Contenido
@@ -169,10 +173,9 @@
     });
 
     chatForm.addEventListener("submit", function () {
-        // Limpieza visual luego de enviar
         preview.src = "";
         preview.style.display = "none";
         btnCancelar.style.display = "none";
-        inputImagen.value = "";
+        
     });
 </script>

@@ -63,6 +63,16 @@ namespace pHelloworld.Controllers
                 foto_perfil = string.IsNullOrEmpty(usuario.foto_perfil) ? "~/img/fotoperfil.png" : usuario.foto_perfil
             };
 
+            var opiniones = await _context.Opiniones
+                .Include(o => o.Turista)
+                .Where(o => o.IdGuia == userId)
+                .OrderByDescending(o => o.Fecha)
+                .ToListAsync();
+            ViewBag.PromedioCalificacion = opiniones.Any() ? opiniones.Average(o => o.Calificacion) : 0.0;
+
+            ViewBag.Opiniones = opiniones;
+
+
             return View("~/Views/Perfil/Perfil.cshtml", perfilViewModel);
         }
 
@@ -155,6 +165,7 @@ namespace pHelloworld.Controllers
 
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();
+
 
             return RedirectToAction("Perfil");
         }

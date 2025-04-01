@@ -1,10 +1,11 @@
-﻿@model List<Usuario>
-
-@{
+﻿@{
     ViewData["Title"] = "Guías Disponibles";
-    var especialidades = Model.Select(g => g.Especialidad).Distinct().ToList();
-    var ubicaciones = Model.Select(g => g.Direccion).Distinct().ToList();
-    var idiomas = Model.SelectMany(g => g.Idiomas.Split(',')).Select(i => i.Trim()).Distinct().ToList();
+    var guias = (List<(Usuario guia, double promedio)>)ViewBag.GuiasConCalificacion;
+
+
+    var especialidades = guias.Select(g => g.guia.Especialidad).Distinct().ToList();
+    var ubicaciones = guias.Select(g => g.guia.Direccion).Distinct().ToList();
+    var idiomas = guias.SelectMany(g => g.guia.Idiomas.Split(',')).Select(i => i.Trim()).Distinct().ToList();
 }
 
 <head>
@@ -50,31 +51,42 @@
 
     <!-- Lista de guías -->
     <div class="row d-flex flex-wrap justify-content-center" id="guidesContainer">
-        @foreach (var guia in Model)
+        @foreach (var (guia, promedio) in guias)
         {
             <div class="col-md-4 mb-4">
-                <div class="card guide-card" data-specialty="@guia.Especialidad" data-location="@guia.Direccion" data-language="@guia.Idiomas" >
+                <div class="card guide-card" data-specialty="@guia.Especialidad" data-location="@guia.Direccion" data-language="@guia.Idiomas">
                     <div class="text-center">
-                        <img src="@guia.foto_perfil" class="profile-pic" alt="Foto de @guia.Nombre">
+                        <a asp-controller="Guias" asp-action="Perfil" asp-route-id="@guia.id_usuario">
+                            <img src="@guia.foto_perfil" class="profile-pic" alt="Foto de @guia.Nombre" style="cursor: pointer;">
+                        </a>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title text-center">@guia.Nombre</h5>
                         <p class="text-muted text-center">@guia.Nacionalidad</p>
+
+                        @if (promedio > 0)
+                        {
+                            <p class="text-center">
+                                <strong>Calificación:</strong>
+                                <span class="text-warning">
+                                    @promedio.ToString("0.0") ⭐
+                                </span>
+                            </p>
+                        }
+
 
                         <p><strong>Usuario:</strong> @guia.usuario</p>
                         <p><strong>Teléfono:</strong> @guia.Telefono</p>
                         <p><strong>Lugar:</strong> @guia.Direccion</p>
                         <p><strong>Idiomas:</strong> @guia.Idiomas</p>
                         <p><strong>Especialidad:</strong> @guia.Especialidad</p>
-
                         <p class="guide-description"><strong>Sobre mí:</strong> @guia.Experiencia</p>
-
                         <p class="guide-availability"><strong>Disponibilidad:</strong> @guia.Disponibilidad</p>
 
                         <p>
                             <strong>Tarifas:</strong>
-                            <br>Hora: $@guia.TarifaHora USD
-                            <br>Tour: $@guia.TarifaTour USD
+                            <br />Hora: $@guia.TarifaHora USD
+                            <br />Tour: $@guia.TarifaTour USD
                         </p>
 
                         <div class="text-center">
@@ -105,12 +117,10 @@
             var languageMatch = language === "" || guideLanguages.includes(language);
 
             if (specialtyMatch && locationMatch && languageMatch) {
-                card.style.display = "block"; 
+                card.style.display = "block";
             } else {
-                card.style.display = "none"; 
+                card.style.display = "none";
             }
         });
     }
-
-
 </script>

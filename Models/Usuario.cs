@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using pHelloworld.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class Usuario
@@ -23,4 +24,6 @@ public class Usuario
     public string Disponibilidad { get; set; }
     public decimal? TarifaHora { get; set; }
     public decimal? TarifaTour { get; set; }
+    public ICollection<Opinion> OpinionesRecibidas { get; set; }
+
 }

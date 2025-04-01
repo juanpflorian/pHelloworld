@@ -1,0 +1,164 @@
+﻿@using pHelloworld.Models
+@model Usuario
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+@{
+    ViewData["Title"] = "Perfil Público";
+    var opiniones = ViewBag.Opiniones as List<Opinion> ?? new List<Opinion>();
+    var promedio = ViewBag.PromedioCalificacion as double? ?? 0.0;
+    var usuarioActualId = int.TryParse(Context.User.FindFirst("Id")?.Value, out var idTemp) ? idTemp : -1;
+    var esMiPerfil = User.Identity.IsAuthenticated && usuarioActualId == Model.id_usuario;
+
+
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h2>@Model.Nombre</h2>
+        <img src="@Model.foto_perfil" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+        <p class="mt-2">@Model.Correo</p>
+        <p><strong>Tipo de Usuario:</strong> @Model.Tipo_Usuario</p>
+        @if (promedio > 0)
+        {
+            <p><strong>Calificación Promedio:</strong> @promedio.ToString("0.0") ⭐</p>
+        }
+    </div>
+
+    <hr />
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h4>Información General</h4>
+            <p><strong>Usuario:</strong> @Model.usuario</p>
+            <p><strong>Teléfono:</strong> @Model.Telefono</p>
+            <p><strong>Dirección:</strong> @Model.Direccion</p>
+            <p><strong>Nacionalidad:</strong> @Model.Nacionalidad</p>
+        </div>
+
+        @if (Model.Tipo_Usuario == "Guía")
+        {
+            <div class="col-md-6">
+                <h4>Información como Guía</h4>
+                <p><strong>Idiomas:</strong> @Model.Idiomas</p>
+                <p><strong>Especialidad:</strong> @Model.Especialidad</p>
+                <p><strong>Experiencia:</strong> @Model.Experiencia</p>
+                <p><strong>Disponibilidad:</strong> @Model.Disponibilidad</p>
+                <p><strong>Tarifa por Hora:</strong> $@Model.TarifaHora USD</p>
+                <p><strong>Tarifa por Tour:</strong> $@Model.TarifaTour USD</p>
+            </div>
+        }
+    </div>
+
+    @if (!esMiPerfil)
+    {
+        <hr />
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Opiniones</h4>
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalOpinion">
+                Agregar Opinión
+            </button>
+        </div>
+    }
+    else
+    {
+        <hr />
+        <div class="mb-3">
+            <h4>Opiniones Recibidas</h4>
+        </div>
+    }
+
+
+    @if (opiniones.Any())
+    {
+        foreach (var opinion in opiniones)
+        {
+            <div class="border p-3 mb-2">
+                <strong>@opinion.Turista?.Nombre</strong>
+                <span class="text-warning">(@opinion.Calificacion ⭐)</span><br />
+                <p>@opinion.Comentario</p>
+                <small class="text-muted">@opinion.Fecha.ToLocalTime().ToString("g")</small>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">Este usuario aún no tiene opiniones.</p>
+    }
+</div>
+
+<!-- ✅ Modal para agregar opinión -->
+<div class="modal fade" id="modalOpinion" tabindex="-1" aria-labelledby="modalOpinionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="formOpinion">
+            <input type="hidden" name="IdGuia" value="@Model.id_usuario" />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalOpinionLabel">Dejar Opinión sobre @Model.Nombre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Calificación</label>
+                        <select name="Calificacion" class="form-select" required>
+                            <option value="">Selecciona una calificación</option>
+                            @for (int i = 5; i >= 1; i--)
+                            {
+                                <option value="@i">@i ⭐</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Comentario</label>
+                        <textarea name="Comentario" class="form-control" rows="4" required maxlength="1000"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Publicar Opinión</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ Script para enviar el formulario con fetch -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("formOpinion");
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            // Verificamos lo que se va a enviar
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+            try {
+                const response = await fetch("/Opiniones/Crear", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert("✅ Opinión enviada con éxito");
+                    location.reload();
+                } else {
+                    const errorText = await response.text();
+                    alert("❌ Error al enviar la opinión: " + errorText);
+                    console.error(errorText);
+                }
+            } catch (error) {
+                alert("❌ Error de red o del servidor.");
+                console.error(error);
+            }
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
