@@ -1,0 +1,102 @@
+[
+  {
+    "codigo": "CO",
+    "nombre": "Colombia",
+    "prefijo": "+57"
+  },
+  {
+    "codigo": "MX",
+    "nombre": "México",
+    "prefijo": "+52"
+  },
+  {
+    "codigo": "AR",
+    "nombre": "Argentina",
+    "prefijo": "+54"
+  },
+  {
+    "codigo": "US",
+    "nombre": "Estados Unidos",
+    "prefijo": "+1"
+  },
+  {
+    "codigo": "FR",
+    "nombre": "Francia",
+    "prefijo": "+33"
+  },
+  {
+    "codigo": "DE",
+    "nombre": "Alemania",
+    "prefijo": "+49"
+  },
+  {
+    "codigo": "BR",
+    "nombre": "Brasil",
+    "prefijo": "+55"
+  },
+  {
+    "codigo": "ES",
+    "nombre": "España",
+    "prefijo": "+34"
+  },
+  {
+    "codigo": "IT",
+    "nombre": "Italia",
+    "prefijo": "+39"
+  },
+  {
+    "codigo": "CN",
+    "nombre": "China",
+    "prefijo": "+86"
+  },
+  {
+    "codigo": "JP",
+    "nombre": "Japón",
+    "prefijo": "+81"
+  },
+  {
+    "codigo": "RU",
+    "nombre": "Rusia",
+    "prefijo": "+7"
+  },
+  {
+    "codigo": "CA",
+    "nombre": "Canadá",
+    "prefijo": "+1"
+  },
+  {
+    "codigo": "GB",
+    "nombre": "Reino Unido",
+    "prefijo": "+44"
+  },
+  {
+    "codigo": "PE",
+    "nombre": "Perú",
+    "prefijo": "+51"
+  },
+  {
+    "codigo": "VE",
+    "nombre": "Venezuela",
+    "prefijo": "+58"
+  },
+  {
+    "codigo": "CL",
+    "nombre": "Chile",
+    "prefijo": "+56"
+  },
+  {
+    "codigo": "EC",
+    "nombre": "Ecuador",
+    "prefijo": "+593"
+  },
+  {
+    "codigo": "BO",
+    "nombre": "Bolivia",
+    "prefijo": "+591"
+  },
+  {
+    "codigo": "UY",
+    "nombre": "Uruguay",
+    "prefijo": "+598"
+  }
+]

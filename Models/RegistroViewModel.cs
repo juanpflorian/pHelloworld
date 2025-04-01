@@ -5,7 +5,11 @@ namespace pHelloworld.Models
     public class RegistroViewModel
     {
         [Required, StringLength(15)]
-        public string usuario { get; set; }  
+        public string usuario { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar una nacionalidad")]
+        public string Nacionalidad { get; set; }
+
 
         [Required, StringLength(100)]
         public string Nombre { get; set; }  

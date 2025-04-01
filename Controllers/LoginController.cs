@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using pHelloworld.Data;
 using pHelloworld.DTOs;
-using pHelloworld.Models;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -34,24 +32,17 @@ namespace pHelloworld.Controllers
                 return View("~/Views/usuario/IniciarSesion.cshtml", model);
 
             var usuario = await _context.GetCredencial(model.Correo);
+            var contrasenaEncriptada = EncryptPassword(model.Contrasena);
 
-            if (usuario == null)
+            // Validación de existencia y coincidencia de contraseña
+            if (usuario == null || usuario.Contrasena == null ||
+                !usuario.Contrasena.Equals(contrasenaEncriptada, StringComparison.OrdinalIgnoreCase))
             {
-                ModelState.AddModelError(string.Empty, "Usuario no encontrado.");
+                ViewBag.Error = "Correo o contraseña incorrectos.";
                 return View("~/Views/usuario/IniciarSesion.cshtml", model);
             }
 
-            // 🔹 Imprimir datos clave para depuración
-            Console.WriteLine($"Usuario encontrado: {usuario.Nombre}, Telefono: {usuario.Telefono}, Direccion: {usuario.Direccion}, Idiomas: {usuario.Idiomas}");
-
-            if (string.IsNullOrEmpty(usuario.Contrasena) ||
-                !usuario.Contrasena.Equals(EncryptPassword(model.Contrasena), StringComparison.OrdinalIgnoreCase))
-            {
-                ModelState.AddModelError(string.Empty, "Correo o contraseña incorrectos.");
-                return View("~/Views/usuario/IniciarSesion.cshtml", model);
-            }
-
-            // 🔹 Asegurar que ningún claim tenga null
+            // Construcción de claims (datos del usuario para autenticación)
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.id_usuario.ToString()),
@@ -74,16 +65,10 @@ namespace pHelloworld.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
 
-            // 🔹 Comprobar si la autenticación se hizo correctamente
-            if (!User.Identity.IsAuthenticated)
-            {
-                ModelState.AddModelError(string.Empty, "No se pudo autenticar.");
-                return View("~/Views/usuario/IniciarSesion.cshtml", model);
-            }
-
             return RedirectToAction("Perfil", "Perfil");
         }
 
+        // Encripta la contraseña usando SHA-256
         private string EncryptPassword(string password)
         {
             using (var sha256 = SHA256.Create())

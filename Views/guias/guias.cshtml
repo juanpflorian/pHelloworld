@@ -2,7 +2,6 @@
     ViewData["Title"] = "Guías Disponibles";
     var guias = (List<(Usuario guia, double promedio)>)ViewBag.GuiasConCalificacion;
 
-
     var especialidades = guias.Select(g => g.guia.Especialidad).Distinct().ToList();
     var ubicaciones = guias.Select(g => g.guia.Direccion).Distinct().ToList();
     var idiomas = guias.SelectMany(g => g.guia.Idiomas.Split(',')).Select(i => i.Trim()).Distinct().ToList();
@@ -47,6 +46,16 @@
                 }
             </select>
         </div>
+
+        <div class="col-md-3">
+            <select id="ratingFilter" class="form-select" onchange="filterGuides()">
+                <option value="">Filtrar por Calificación</option>
+                <option value="4.5">4.5 ⭐ o más</option>
+                <option value="4.0">4.0 ⭐ o más</option>
+                <option value="3.5">3.5 ⭐ o más</option>
+                <option value="3.0">3.0 ⭐ o más</option>
+            </select>
+        </div>
     </div>
 
     <!-- Lista de guías -->
@@ -54,7 +63,11 @@
         @foreach (var (guia, promedio) in guias)
         {
             <div class="col-md-4 mb-4">
-                <div class="card guide-card" data-specialty="@guia.Especialidad" data-location="@guia.Direccion" data-language="@guia.Idiomas">
+                <div class="card guide-card"
+                     data-specialty="@guia.Especialidad"
+                     data-location="@guia.Direccion"
+                     data-language="@guia.Idiomas"
+                     data-rating="@promedio">
                     <div class="text-center">
                         <a asp-controller="Guias" asp-action="Perfil" asp-route-id="@guia.id_usuario">
                             <img src="@guia.foto_perfil" class="profile-pic" alt="Foto de @guia.Nombre" style="cursor: pointer;">
@@ -73,7 +86,6 @@
                                 </span>
                             </p>
                         }
-
 
                         <p><strong>Usuario:</strong> @guia.usuario</p>
                         <p><strong>Teléfono:</strong> @guia.Telefono</p>
@@ -101,26 +113,27 @@
 
 <script>
     function filterGuides() {
-        var specialty = document.getElementById("specialtyFilter").value.trim().toLowerCase();
-        var location = document.getElementById("locationFilter").value.trim().toLowerCase();
-        var language = document.getElementById("languageFilter").value.trim().toLowerCase();
+        const specialty = document.getElementById("specialtyFilter").value.trim().toLowerCase();
+        const location = document.getElementById("locationFilter").value.trim().toLowerCase();
+        const language = document.getElementById("languageFilter").value.trim().toLowerCase();
+        const rating = parseFloat(document.getElementById("ratingFilter").value);
 
-        var guides = document.querySelectorAll(".guide-card");
+        const guides = document.querySelectorAll(".guide-card");
 
-        guides.forEach(function (card) {
-            var guideSpecialty = card.getAttribute("data-specialty")?.trim().toLowerCase() || "";
-            var guideLocation = card.getAttribute("data-location")?.trim().toLowerCase() || "";
-            var guideLanguages = card.getAttribute("data-language")?.trim().toLowerCase().split(/\s*,\s*/) || [];
+        guides.forEach(card => {
+            const guideSpecialty = card.getAttribute("data-specialty")?.trim().toLowerCase() || "";
+            const guideLocation = card.getAttribute("data-location")?.trim().toLowerCase() || "";
+            const guideLanguages = card.getAttribute("data-language")?.trim().toLowerCase().split(/\s*,\s*/) || [];
+            const guideRating = parseFloat(card.getAttribute("data-rating")) || 0;
 
-            var specialtyMatch = specialty === "" || guideSpecialty.includes(specialty);
-            var locationMatch = location === "" || guideLocation.includes(location);
-            var languageMatch = language === "" || guideLanguages.includes(language);
+            const specialtyMatch = specialty === "" || guideSpecialty.includes(specialty);
+            const locationMatch = location === "" || guideLocation.includes(location);
+            const languageMatch = language === "" || guideLanguages.includes(language);
+            const ratingMatch = isNaN(rating) || guideRating >= rating;
 
-            if (specialtyMatch && locationMatch && languageMatch) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
+            card.style.display = (specialtyMatch && locationMatch && languageMatch && ratingMatch)
+                ? "block"
+                : "none";
         });
     }
 </script>

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Modificar Perfil";
-    bool esGuia = Model.TipoUsuario == "Guía";
+    bool esGuia = string.Equals(Model?.TipoUsuario, "Guía", StringComparison.OrdinalIgnoreCase);
 }
 
 <h2 class="text-center">Modificar Perfil</h2>
@@ -12,6 +12,7 @@
         <div class="col-md-6">
             <form asp-action="EditarPerfil" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="id_usuario" />
+                <input type="hidden" asp-for="TipoUsuario" />
 
                 <div class="mb-3 text-center">
                     <img id="previewImage" src="@Model.foto_perfil" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;" />
@@ -19,67 +20,82 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="usuario" class="form-label">Usuario</label>
+                    <label class="form-label">Usuario</label>
                     <input type="text" class="form-control" asp-for="usuario" required>
+                    <span asp-validation-for="usuario" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre</label>
+                    <label class="form-label">Nombre</label>
                     <input type="text" class="form-control" asp-for="Nombre" required>
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="correo" class="form-label">Correo</label>
+                    <label class="form-label">Correo</label>
                     <input type="email" class="form-control" asp-for="Correo" required>
+                    <span asp-validation-for="Correo" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="telefono" class="form-label">Teléfono</label>
+                    <label class="form-label">Teléfono</label>
                     <input type="text" class="form-control" asp-for="Telefono" required>
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="direccion" class="form-label">Lugar</label>
+                    <label class="form-label">Lugar</label>
                     <input type="text" class="form-control" asp-for="Direccion" required>
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
                 </div>
-
-                
 
                 @if (esGuia)
                 {
                     <div class="mb-3">
-                        <label for="idiomas" class="form-label">Idiomas</label>
+                        <label class="form-label">Idiomas</label>
                         <input type="text" class="form-control" asp-for="Idiomas" required>
+                        <span asp-validation-for="Idiomas" class="text-danger"></span>
                     </div>
                 }
 
                 <div class="mb-3">
-                    <label for="Sobre Mi" class="form-label">Especialidad</label>
+                    <label class="form-label">@((esGuia ? "Especialidad" : "Sobre mí"))</label>
                     <input type="text" class="form-control" asp-for="Especialidad">
+                    <span asp-validation-for="Especialidad" class="text-danger"></span>
                 </div>
 
                 @if (esGuia)
                 {
                     <div class="mb-3">
-                        <label for="experiencia" class="form-label">Sobre Mi</label>
+                        <label class="form-label">Sobre Mi</label>
                         <textarea class="form-control" asp-for="Experiencia" rows="3"></textarea>
+                        <span asp-validation-for="Experiencia" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label for="disponibilidad" class="form-label">Disponibilidad</label>
+                        <label class="form-label">Disponibilidad</label>
                         <textarea class="form-control" asp-for="Disponibilidad" rows="3"></textarea>
+                        <span asp-validation-for="Disponibilidad" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label for="tarifaHora" class="form-label">Tarifa por Hora</label>
+                        <label class="form-label">Tarifa por Hora</label>
                         <input type="number" class="form-control" asp-for="TarifaHora" step="0.01">
+                        <span asp-validation-for="TarifaHora" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label for="tarifaTour" class="form-label">Tarifa por Tour</label>
+                        <label class="form-label">Tarifa por Tour</label>
                         <input type="number" class="form-control" asp-for="TarifaTour" step="0.01">
+                        <span asp-validation-for="TarifaTour" class="text-danger"></span>
                     </div>
                 }
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cambiarContrasenaModal">
+                        Cambiar Contraseña
+                    </button>
+                </div>
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -90,11 +106,93 @@
     </div>
 </div>
 
+<!-- Modal Cambiar Contraseña -->
+<div class="modal fade" id="cambiarContrasenaModal" tabindex="-1" aria-labelledby="cambiarContrasenaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cambiarContrasenaModalLabel">Cambiar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="contrasenaActual" class="form-label">Contraseña Actual</label>
+                    <input type="password" class="form-control" id="contrasenaActual">
+                    <div id="estadoContrasenaActual" class="form-text text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="nuevaContrasena" class="form-label">Nueva Contraseña</label>
+                    <input type="password" class="form-control" id="nuevaContrasena" minlength="8">
+                    <div class="form-text">Mínimo 8 caracteres.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmarContrasena" class="form-label">Confirmar Contraseña Nueva</label>
+                    <input type="password" class="form-control" id="confirmarContrasena">
+                    <div id="estadoConfirmarContrasena" class="form-text text-danger"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarContrasena">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}
+
 <script>
+    document.getElementById("btnGuardarContrasena").addEventListener("click", async () => {
+        const actual = document.getElementById("contrasenaActual").value;
+        const nueva = document.getElementById("nuevaContrasena").value;
+        const confirmar = document.getElementById("confirmarContrasena").value;
+
+        const estado = document.getElementById("estadoContrasenaActual");
+        const estadoConfirmar = document.getElementById("estadoConfirmarContrasena");
+
+        estado.textContent = "";
+        estadoConfirmar.textContent = "";
+
+        if (nueva.length < 8) {
+            estado.textContent = "La nueva contraseña debe tener mínimo 8 caracteres.";
+            return;
+        }
+
+        if (nueva !== confirmar) {
+            estadoConfirmar.textContent = "Las contraseñas no coinciden.";
+            return;
+        }
+
+        const response = await fetch("/Perfil/ValidarYActualizarContrasena", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ actual, nueva })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Contraseña actualizada exitosamente.");
+            document.getElementById("contrasenaActual").value = "";
+            document.getElementById("nuevaContrasena").value = "";
+            document.getElementById("confirmarContrasena").value = "";
+            const modal = bootstrap.Modal.getInstance(document.getElementById("cambiarContrasenaModal"));
+            modal.hide();
+        } else {
+            estado.textContent = result.mensaje;
+        }
+    });
     function previewFile() {
-        var preview = document.getElementById('previewImage');
-        var file = document.getElementById('foto_perfil').files[0];
-        var reader = new FileReader();
+        const preview = document.getElementById('previewImage');
+        const file = document.getElementById('foto_perfil').files[0];
+        const reader = new FileReader();
 
         reader.onloadend = function () {
             preview.src = reader.result;

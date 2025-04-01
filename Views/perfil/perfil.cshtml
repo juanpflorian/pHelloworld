@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Mi Perfil";
 }
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["Mensaje"]
+    </div>
+}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -56,7 +62,11 @@
                 <tr><td><strong>Teléfono:</strong></td><td>@Model.Telefono</td></tr>
                 <tr><td><strong>Lugar:</strong></td><td>@Model.Direccion</td></tr>
                 <tr><td><strong>Tipo de usuario:</strong></td><td>@Model.TipoUsuario</td></tr>
-                <tr><td><strong>Especialidad:</strong></td><td>@Model.Especialidad</td></tr>
+                <tr>
+                    <td><strong>@(Model.TipoUsuario == "Guía" ? "Especialidad" : "Sobre mí"):</strong></td>
+                    <td>@Model.Especialidad</td>
+                </tr>
+
 
                 @if (Model.TipoUsuario == "Guía")
                 {

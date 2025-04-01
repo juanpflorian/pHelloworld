@@ -60,10 +60,9 @@ namespace pHelloworld.Controllers
                 Fecha_Creacion = DateTime.Now,
                 Tipo_Usuario = "Turista",
 
-                
                 Telefono = "Sin diligenciar",
                 Direccion = "Sin diligenciar",
-                Nacionalidad = "Sin diligenciar",
+                Nacionalidad = string.IsNullOrEmpty(model.Nacionalidad) ? "Sin diligenciar" : model.Nacionalidad, // ✅ Aquí
                 foto_perfil = "/img/fotoperfil.png",
                 Idiomas = "Sin diligenciar",
                 Especialidad = "Sin diligenciar",
@@ -72,6 +71,7 @@ namespace pHelloworld.Controllers
                 TarifaHora = 0m,
                 TarifaTour = 0m
             };
+
 
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();

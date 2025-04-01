@@ -5,7 +5,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="/css/usuario/registrarse.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/usuario/registrarse.css" asp-append-version="true" />
 }
 
 <div class="container">
@@ -21,8 +21,14 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(m => m.Nacionalidad)
+                @Html.DropDownListFor(m => m.Nacionalidad, new SelectList(new List<string>(), ""), "Seleccione un país", new { @class = "form-select", id = "Nacionalidad" })
+                @Html.ValidationMessageFor(m => m.Nacionalidad, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
                 @Html.LabelFor(m => m.Correo)
-                @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "Ingresa tu correo electrónico" })
+                @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "Ingresa tu correo electrónico", type = "email" })
                 @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
             </div>
 
@@ -40,17 +46,36 @@
 
             <button type="submit" class="btn btn-primary">Registrarse</button>
 
-            <p>
-                ¿Ya tienes cuenta? <a href="@Url.Action("IniciarSesion", "Login")">Inicia sesión</a>
-            </p>
+            <p>¿Ya tienes cuenta? <a href="@Url.Action("IniciarSesion", "Login")">Inicia sesión</a></p>
         }
     </div>
 </div>
-
-
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/js/paises.json")
+                .then(response => response.json())
+                .then(paises => {
+                    const select = document.getElementById("Nacionalidad");
+                    paises.forEach(pais => {
+                        const option = document.createElement("option");
+                        option.value = pais.nombre;
+                        option.textContent = pais.nombre;
+                        select.appendChild(option);
+                    });
+
+                    // Mantener seleccionado si el modelo tiene valor
+                    const selected = "@Model.Nacionalidad";
+                    if (selected) {
+                        select.value = selected;
+                    }
+                })
+                .catch(error => console.error("Error al cargar países:", error));
+        });
+    </script>
 }

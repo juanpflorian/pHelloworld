@@ -77,6 +77,10 @@
       "PackagePath": "staticwebassets\\img\\Turismo.jpg"
     },
     {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\b6749eb1-1322-423c-87fb-caef5ce41c8e_3.jpg",
+      "PackagePath": "staticwebassets\\img\\b6749eb1-1322-423c-87fb-caef5ce41c8e_3.jpg"
+    },
+    {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\c413d882-489b-44cd-a6ce-2fa66bdb9973_perfil.jpg",
       "PackagePath": "staticwebassets\\img\\c413d882-489b-44cd-a6ce-2fa66bdb9973_perfil.jpg"
     },
@@ -99,6 +103,10 @@
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\chat\\a83020de-e433-4956-9f88-4577533ac932_WhatsApp Image 2025-03-30 at 2.20.44 PM.jpeg",
       "PackagePath": "staticwebassets\\img\\chat\\a83020de-e433-4956-9f88-4577533ac932_WhatsApp Image 2025-03-30 at 2.20.44 PM.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\db00fb45-515d-4de1-9b60-3d050125be8d_2.jpg",
+      "PackagePath": "staticwebassets\\img\\db00fb45-515d-4de1-9b60-3d050125be8d_2.jpg"
     },
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\e19f45f3-cb35-4688-96a6-520ca33ca8d9_fotoJUAN.jpg",
@@ -167,6 +175,10 @@
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\img\\logocolor.png",
       "PackagePath": "staticwebassets\\img\\logocolor.png"
+    },
+    {
+      "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\js\\paises.json",
+      "PackagePath": "staticwebassets\\js\\paises.json"
     },
     {
       "Id": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\wwwroot\\js\\planes.js",

@@ -62,6 +62,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NccGVyZmlsXHBlcmZpbFB1YmxpY28uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Juan/source/repos/pHelloworld/Views/quienesSomos/contactanos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccXVpZW5lc1NvbW9zXGNvbnRhY3Rhbm9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/quienesSomos/nuestraHistoria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccXVpZW5lc1NvbW9zXG51ZXN0cmFIaXN0b3JpYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/quienesSomos/nuestraMision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccXVpZW5lc1NvbW9zXG51ZXN0cmFNaXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/source/repos/pHelloworld/Views/quienesSomos/nuestraVision.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccXVpZW5lc1NvbW9zXG51ZXN0cmFWaXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Juan/source/repos/pHelloworld/Views/Shared/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFjY2Vzc0RlbmllZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -9,6 +9,9 @@ using System.Linq;
 using System.Security.Claims;
 using pHelloworld.Filtros;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
+
 using pHelloworld.Controllers; // Para acceder al _LayoutController
 
 namespace pHelloworld.Controllers
@@ -130,25 +133,26 @@ namespace pHelloworld.Controllers
             if (usuario == null)
                 return RedirectToAction("IniciarSesion", "Login");
 
-            // Modificables por todos los usuarios
+            // Modificar los detalles del usuario
             usuario.usuario = model.usuario ?? usuario.usuario;
             usuario.Nombre = model.Nombre ?? usuario.Nombre;
             usuario.Correo = model.Correo ?? usuario.Correo;
             usuario.Telefono = model.Telefono ?? usuario.Telefono;
             usuario.Direccion = model.Direccion ?? usuario.Direccion;
             usuario.Idiomas = model.Idiomas ?? usuario.Idiomas;
+            usuario.Especialidad = model.Especialidad ?? usuario.Especialidad;
 
-            // Solo modificables por Guías
+            // Si es guía, actualizar los campos específicos
             if (usuario.Tipo_Usuario == "Guía")
             {
                 usuario.Nacionalidad = model.Nacionalidad ?? usuario.Nacionalidad;
-                usuario.Especialidad = model.Especialidad ?? usuario.Especialidad;
                 usuario.Experiencia = model.Experiencia ?? usuario.Experiencia;
                 usuario.Disponibilidad = model.Disponibilidad ?? usuario.Disponibilidad;
                 usuario.TarifaHora = (decimal?)model.TarifaHora ?? 0;
                 usuario.TarifaTour = (decimal?)model.TarifaTour ?? 0;
             }
 
+            // Guardar la foto de perfil si se sube una nueva
             if (FotoPerfil != null && FotoPerfil.Length > 0)
             {
                 var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img");
@@ -166,8 +170,53 @@ namespace pHelloworld.Controllers
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();
 
+            // Mensaje de éxito
+            TempData["Mensaje"] = "Tu perfil ha sido actualizado correctamente.";
 
             return RedirectToAction("Perfil");
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ValidarYActualizarContrasena([FromBody] CambiarContrasenaDTO datos)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Unauthorized();
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+                return BadRequest(new { success = false, mensaje = "Usuario no válido" });
+
+            var usuario = await _context.Usuarios.FindAsync(userId);
+            if (usuario == null)
+                return NotFound(new { success = false, mensaje = "Usuario no encontrado" });
+
+            var contrasenaActualHash = EncryptPassword(datos.actual);
+
+            if (usuario.Contrasena != contrasenaActualHash)
+            {
+                return BadRequest(new { success = false, mensaje = "La contraseña actual es incorrecta" });
+            }
+
+            usuario.Contrasena = EncryptPassword(datos.nueva);
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true });
+        }
+
+        private string EncryptPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                return null;
+
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+        }
+
+
     }
 }

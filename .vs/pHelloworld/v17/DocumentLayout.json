@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\views\\guias\\guias.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:views\\guias\\guias.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\controllers\\guiascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:controllers\\guiascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\controllers\\perfilcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:controllers\\perfilcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\views\\perfil\\perfil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:views\\perfil\\perfil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\models\\perfil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:models\\perfil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|c:\\users\\juan\\source\\repos\\phelloworld\\views\\perfil\\modificar-perfil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2BD38F23-2958-438C-B314-5460390CDEBF}|pHelloworld.csproj|solutionrelative:views\\perfil\\modificar-perfil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "guias.cshtml",
-              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Views\\guias\\guias.cshtml",
-              "RelativeDocumentMoniker": "Views\\guias\\guias.cshtml",
-              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Views\\guias\\guias.cshtml",
-              "RelativeToolTip": "Views\\guias\\guias.cshtml",
-              "ViewState": "AgIAADkAAAAAAAAAAAAvwEsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-01T05:40:37.129Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "GuiasController.cs",
-              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Controllers\\GuiasController.cs",
-              "RelativeDocumentMoniker": "Controllers\\GuiasController.cs",
-              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Controllers\\GuiasController.cs",
-              "RelativeToolTip": "Controllers\\GuiasController.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T04:23:24.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "perfil.cshtml",
               "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Views\\perfil\\perfil.cshtml",
               "RelativeDocumentMoniker": "Views\\perfil\\perfil.cshtml",
               "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Views\\perfil\\perfil.cshtml",
               "RelativeToolTip": "Views\\perfil\\perfil.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-01T04:12:32.587Z",
+              "WhenOpened": "2025-04-01T19:59:24.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Perfil.cs",
+              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Models\\Perfil.cs",
+              "RelativeDocumentMoniker": "Models\\Perfil.cs",
+              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Models\\Perfil.cs",
+              "RelativeToolTip": "Models\\Perfil.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAA7wC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T19:58:20.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PerfilController.cs",
+              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Controllers\\PerfilController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PerfilController.cs",
+              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Controllers\\PerfilController.cs",
+              "RelativeToolTip": "Controllers\\PerfilController.cs",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAuwLEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T19:58:33.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "modificar-perfil.cshtml",
+              "DocumentMoniker": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Views\\perfil\\modificar-perfil.cshtml",
+              "RelativeDocumentMoniker": "Views\\perfil\\modificar-perfil.cshtml",
+              "ToolTip": "C:\\Users\\Juan\\source\\repos\\pHelloworld\\Views\\perfil\\modificar-perfil.cshtml",
+              "RelativeToolTip": "Views\\perfil\\modificar-perfil.cshtml",
+              "ViewState": "AgIAALUAAAAAAAAAAAAmwM8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-01T19:58:25.145Z",
               "EditorCaption": ""
             }
           ]

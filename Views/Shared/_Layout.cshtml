@@ -47,12 +47,13 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="btn btn-light text-primary dropdown-toggle exclusive-dropdown-toggle" data-bs-toggle="dropdown">QUIÉNES SOMOS?</a>
                         <ul class="dropdown-menu exclusive-dropdown-menu">
-                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/nuestra mision/nuestramision.html")">Nuestra Misión</a></li>
-                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/nuestra vision/nuestravision.html")">Nuestra Visión</a></li>
-                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/nuestra historia/nuestrahistoria.html")">Nuestra Historia</a></li>
-                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Content("~/quienes somos/pqrs/pqrs.html")">Contáctanos</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Action("nuestraMision", "quienesSomos")">Nuestra Misión</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Action("nuestraVision", "quienesSomos")">Nuestra Visión</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Action("nuestraHistoria", "quienesSomos")">Nuestra Historia</a></li>
+                            <li><a class="dropdown-item exclusive-dropdown-item" href="@Url.Action("contactanos", "quienesSomos")">Contáctanos</a></li>
                         </ul>
                     </li>
+
                 </ul>
             </nav>
 
