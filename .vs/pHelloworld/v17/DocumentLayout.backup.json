@@ -38,8 +38,7 @@
               "RelativeToolTip": "Views\\perfil\\perfil.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-01T19:59:24.337Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-01T19:59:24.337Z"
             },
             {
               "$type": "Document",
@@ -51,8 +50,7 @@
               "RelativeToolTip": "Models\\Perfil.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAA7wC4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T19:58:20.426Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-01T19:58:20.426Z"
             },
             {
               "$type": "Document",
@@ -77,8 +75,7 @@
               "RelativeToolTip": "Views\\perfil\\modificar-perfil.cshtml",
               "ViewState": "AgIAALUAAAAAAAAAAAAmwM8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-01T19:58:25.145Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-01T19:58:25.145Z"
             }
           ]
         }
